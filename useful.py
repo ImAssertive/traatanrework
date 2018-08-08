@@ -34,6 +34,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
     def confirmationcheck(msg):
         if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
             for j in range(0,len(validAnswers)-1):
+                print(msg.content.lower(), validAnswers[j])
                 if msg.content.lower() in validAnswers[j]:
                     return True
         return False
