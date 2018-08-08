@@ -8,6 +8,7 @@ class adminCog:
     @commands.command(name='setbantext')
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setbantext")
+    @commands.guild_only()
     async def setbantext(self, ctx, *, banText):
         await csql.update("Guilds", "bantext", "banText", "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Ban text set to `"+banText+"`!")
@@ -15,6 +16,7 @@ class adminCog:
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavechannel")
+    @commands.guild_only()
     async def setleave(self, ctx):
         await csql.update("Guilds", "leavechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Done! Farewell channel set here.")
@@ -22,6 +24,7 @@ class adminCog:
     @commands.command(name="setwelcome", aliases=['setwelcomechannel'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setwelcomechannel")
+    @commands.guild_only()
     async def setwelcome(self, ctx):
         await csql.update("Guilds", "welcomechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
@@ -29,6 +32,7 @@ class adminCog:
     @commands.command()
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setwelcometext")
+    @commands.guild_only()
     async def setwelcometext(self, ctx, *, welcometext):
         await csql.update("Guilds", "welcometext", welcometext, "guildID", str(ctx.guild.id))
         await ctx.channel.send("Done! Welcome text set to ```" + welcometext + "```")
@@ -36,6 +40,7 @@ class adminCog:
     @commands.command()
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavetext")
+    @commands.guild_only()
     async def setfarewelltext(self, ctx, *, leavetext):
         await csql.update("Guilds", "leavetext", leavetext, "guildID", str(ctx.guild.id))
         await ctx.channel.send("Done! Farewell text set to: ```" + leavetext + "```")
@@ -90,6 +95,7 @@ class adminCog:
     @commands.command()
     @checks.is_not_banned()
     @commands.has_permissions(ban_members=True)
+    @commands.guild_only()
     async def ban(self, ctx, member, *, reason = None):
         kickban = "ban"
         await self.bankickFunction(ctx, member, reason, kickban)
@@ -97,6 +103,7 @@ class adminCog:
     @commands.command()
     @checks.is_not_banned()
     @commands.has_permissions(kick_members=True)
+    @commands.guild_only()
     async def kick(self, ctx, member, *, reason = None):
         kickban = "kick"
         await self.bankickFunction(ctx, member, reason, kickban)
@@ -158,6 +165,7 @@ class adminCog:
     @commands.command(name="enablecommand", aliases=['enable'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild","togglecommand")
+    @commands.guild_only()
     async def enablecommand(self, ctx, *, commandname):
         enableddisabled = "enabled"
         await self.commandToggleFunction(ctx, commandname, enableddisabled)
@@ -165,6 +173,7 @@ class adminCog:
     @commands.command(name="disablecommand", aliases=['disable'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild","togglecommand")
+    @commands.guild_only()
     async def disablecommand(self, ctx, *, commandname):
         enableddisabled = "disabled"
         await self.commandToggleFunction(ctx, commandname, enableddisabled)
@@ -221,6 +230,7 @@ class adminCog:
     @commands.command()
     @checks.is_not_banned()
     @commands.has_permissions(manage_guild = True)
+    @commands.guild_only()
     async def nsfw(self, ctx):
         await self.nsfwMainMenu(ctx)
 

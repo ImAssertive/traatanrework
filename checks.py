@@ -11,8 +11,8 @@ def has_role(*arg):
 
 def has_permission_or_role(permLevel, command):
     async def predicate(ctx):
-        print(permLevel, ctx.author.permissions_in(ctx.channel))
-        if permLevel in ctx.author.permissions_in(ctx.channel):
+        print(permLevel, ctx.author.guild_permissions)
+        if ctx.author.guild_permissions[permLevel]:
             return True
         else:
             rolesData = await getRolePerms(ctx)
