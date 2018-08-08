@@ -24,7 +24,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         validAnswers.append(options[counter][1])
     descriptionText += "\nx: Closes Menu"
     validAnswers.append(["x", "cancel", "exit"])
-    embed = discord.Embed(title=titleText, description=descriptionText, colour=self.bot.getcolour())
+    embed = discord.Embed(title=titleText, description=descriptionText, colour=ctx.bot.getcolour())
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
@@ -36,7 +36,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         return False
         ##return (msg.content.lower() in validAnswers) and ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id
     try:
-        msg = await self.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
+        msg = await ctx.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
     except asyncio.TimeoutError:
         await menu.delete()
         await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The reset command has closed due to inactivity.")

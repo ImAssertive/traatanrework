@@ -34,10 +34,7 @@ def is_not_banned():
         query = "SELECT * FROM Users WHERE userID = $1 AND banned = false"
         result = await ctx.bot.db.fetchrow(query, ctx.author.id)
         if result:
-            query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false"
-            result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
-            if result:
-                return True
+            return True
         return False
     return commands.check(predicate)
 
