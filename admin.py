@@ -44,7 +44,7 @@ class adminCog:
     @commands.guild_only()
     async def setwelcometext(self, ctx, *, welcometext):
         await csql.update(ctx, "Guilds", "welcometext", welcometext, "guildID", ctx.guild.id)
-        await ctx.channel.send("Done! Welcome text set to: ```" + welcometext + "```")
+        await ctx.channel.send(":white_check_mark: | Done! Welcome text set to: ```" + welcometext + "```")
 
     @commands.command()
     @checks.is_not_banned()
@@ -115,7 +115,7 @@ class adminCog:
     @commands.guild_only()
     async def kick(self, ctx, member, *, reason = None):
         kickban = "kick"
-        await self.bankickFunction(ctx, member, reason, kickban)
+        await self.bankickFunction(ctx, member, kickban, reason)
 
     async def bankickFunction(self, ctx, member, kickban, reason = None):
         memberid = ctx.message.mentions[0].id
