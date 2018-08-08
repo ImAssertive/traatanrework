@@ -7,7 +7,7 @@ async def update(ctx, updateTable, updateLocation, updateValue, whereLocation, w
     whereLocation = cleantext(whereLocation)
     connection = await ctx.bot.db.acquire()
     async with connection.transaction():
-        query = "UPDATE "+updateLocation+" SET banned = $1 WHERE "+whereLocation+" = $2"
+        query = "UPDATE "+updateTable+" SET "+updateLocation+" = $1 WHERE "+whereLocation+" = $2"
         await ctx.bot.db.execute(query, updateValue, whereValue)
     await ctx.bot.db.release(connection)
 
