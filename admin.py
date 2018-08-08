@@ -26,7 +26,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setwelcomechannel")
     @commands.guild_only()
     async def setwelcome(self, ctx):
-        await csql.update(ctx, "Guilds", "welcomechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "welcomechannel", str(ctx.channel.id), "guildid", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
 
     @commands.command()
