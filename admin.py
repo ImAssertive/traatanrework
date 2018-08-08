@@ -209,7 +209,7 @@ class adminCog:
         options = []
         totalcount = 0
         titleText = "NSFW Command Menu"
-        for channel in ctx.guild.channels:
+        for channel in ctx.guild.text_channels:
             if channel.is_nsfw():
                 totalcount += 1
                 options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
