@@ -186,6 +186,12 @@ class adminCog:
                 break
         await ctx.channel.send(":no_entry: | Command not found.")
 
+    def test(self, ctx):
+        print ("w")
+
+    async def test1(self, ctx):
+        await ctx.channel.send(":white_check_mark:")
+
     @commands.command()
     @checks.is_not_banned()
     @commands.has_permissions(manage_guild = True)
@@ -200,10 +206,7 @@ class adminCog:
         footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
         await useful.menuFunction(ctx, titleText, options, footerText)
 
-    def test(self, ctx):
-        print ("w")
-    async def test1(self, ctx):
-        await ctx.channel.send(":white_check_mark:")
+
 
 
 def setup(bot):

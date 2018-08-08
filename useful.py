@@ -41,7 +41,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         msg = await ctx.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
     except asyncio.TimeoutError:
         await menu.delete()
-        await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The menu has closed due to inactivity.")
+        await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** - The menu has closed due to inactivity.")
     else:
         await menu.delete()
         print(msg.content.lower())
@@ -53,7 +53,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
             for k in range(0,len(options)-1):
                 if msg.content.lower() in options[k][1]:
                     ctx.bot.cogs['adminCog'].test(ctx)
-                    await ctx.bot.cogs['adminCog'].test(ctx)
+                    await ctx.bot.cogs['adminCog'].test1(ctx)
                     print([x for x, y in ctx.bot.cogs['adminCog'].__dict__.items() if type(y) == FunctionType])
                     func = getattr(ctx.bot.cogs['adminCog'], str([options[k][0][1]]))
                     func(ctx)
