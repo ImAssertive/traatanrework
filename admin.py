@@ -186,9 +186,6 @@ class adminCog:
                 break
         await ctx.channel.send(":no_entry: | Command not found.")
 
-    def test(self, ctx):
-        print ("w")
-
     async def test1(self, ctx):
         await ctx.channel.send(":white_check_mark:")
 
@@ -199,9 +196,9 @@ class adminCog:
         options = []
         titleText = "NSFW Command Menu"
         if ctx.channel.is_nsfw():
-            options.append([["Disable NSFW Commands","ctx.bot.cogs['adminCog'].test(ctx)"],["0","disable"]])
+            options.append([["Disable NSFW Commands","await ctx.bot.cogs['adminCog'].test1(ctx)"],["0","disable"]])
         else:
-            options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].test(ctx)"],["0","enable"]])
+            options.append([["Enable NSFW Commands","await ctx.bot.cogs['adminCog'].test1(ctx)"],["0","enable"]])
         options.append([["List NSFW Channels", "await ctx.bot.cogs['adminCog'].test1(ctx)"], ["1","list"]])
         footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
         await useful.menuFunction(ctx, titleText, options, footerText)
