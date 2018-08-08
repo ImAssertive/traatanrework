@@ -11,7 +11,8 @@ def has_role(*arg):
 
 def has_permission_or_role(permLevel, command):
     async def predicate(ctx):
-        if iter(ctx.author.guild_permissions)[permLevel]:
+        print(iter(ctx.author.guild_permissions))
+        if 1 == 2:
             return True
         else:
             rolesData = await getRolePerms(ctx)
