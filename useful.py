@@ -51,6 +51,8 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         else:
             for k in range(0,len(options)-1):
                 if msg.content.lower() in options[k][1]:
+                    ctx.bot.cogs['adminCog'].test(ctx)
+                    await ctx.bot.cogs['adminCog'].test(ctx)
                     print([x for x, y in ctx.bot.cogs['adminCog'].__dict__.items() if type(y) == FunctionType])
                     func = getattr(ctx.bot.cogs['adminCog'], str([options[k][0][1]]))
                     func(ctx)

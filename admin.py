@@ -202,6 +202,8 @@ class adminCog:
 
     def test(self, ctx):
         print ("w")
+    async def test1(self, ctx):
+        await ctx.channel.send(":white_check_mark:")
 
 
 def setup(bot):
