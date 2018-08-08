@@ -18,8 +18,7 @@ def getMenuEmoji(noOfOptions):
     toReturn.append("❌")
     return toReturn
 
-async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 60.0):
-    descriptionText = "Options:"
+async def menuFunction(ctx, titleText, options, descriptionText=None, footerText=None, timeoutTime = 60.0):
     validAnswers = []
     for counter in range (0,len(options)):
         descriptionText+="\n"+str(options[counter][1][0])+": "+options[counter][0][0]
