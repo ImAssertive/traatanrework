@@ -15,6 +15,6 @@ def cleantext(uncleanText):
     cleanedText = ""
     for counter in range(0, len(uncleanText)):
         if uncleanText[counter].isalpha() or uncleanText[counter].isdigit():
-            cleanedText += text[counter]
+            cleanedText += uncleanText[counter]
     print(cleanedText)
     return cleanedText
