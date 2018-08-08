@@ -11,6 +11,7 @@ def has_role(*arg):
 
 def has_permission_or_role(permLevel, command):
     async def predicate(ctx):
+        print("ctx.author.guild_permissions." + permLevel)
         if exec("ctx.author.guild_permissions." + permLevel):
             return True
         else:
