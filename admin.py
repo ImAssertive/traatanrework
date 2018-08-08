@@ -200,8 +200,8 @@ class adminCog:
         footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
         await useful.menuFunction(ctx, titleText, options, footerText)
 
-    async def test(self, ctx):
-        await ctx.channel.send("wew")
+    def test(self, ctx):
+        print ("w")
 
 
 def setup(bot):
