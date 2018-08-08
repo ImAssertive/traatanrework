@@ -55,6 +55,4 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
                     print(str(options[k][0][1]))
                     await eval(str(options[k][0][1]))
 
-            print("This should probably never be seen.")
-        print("This should probably never be seen number 2.")
 
