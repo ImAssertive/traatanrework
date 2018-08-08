@@ -92,16 +92,16 @@ class adminCog:
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member, *, reason = None):
         kickban = "ban"
-        await self.bankickFunction(ctx, member, *, reason, kickban)
+        await self.bankickFunction(ctx, member, reason, kickban)
 
     @commands.command()
     @checks.is_not_banned()
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member, *, reason = None):
         kickban = "kick"
-        await self.bankickFunction(ctx, member, *, reason, kickban)
+        await self.bankickFunction(ctx, member, reason, kickban)
 
-    async def bankickFunction(self, ctx, member, *, reason = None, kickban):
+    async def bankickFunction(self, ctx, member, reason = None, kickban):
         memberid = ctx.message.mentions[0].id
         if kickban == "kick":
             kickedbanned = "kicked"
