@@ -195,7 +195,7 @@ class adminCog:
             options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","enable"]])
         options.append([["List NSFW Channels", "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], ["1","list"]])
         footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
-        descriptionText = "Options:\n\n"
+        descriptionText = "Options:\n"
         await useful.menuFunction(ctx, titleText, options, descriptionText, footerText)
 
     async def nsfwToggleMenu(self, ctx):
@@ -215,8 +215,8 @@ class adminCog:
                 totalcount += 1
                 options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
         options.append([["Back to menu", "ctx.bot.cogs['adminCog'].nsfwMainMenu(ctx)"], [str(totalcount+1),"back"]])
-        descriptionText = "The following channels have NSFW permissions:\n\n"
-        await useful.menuFunction(ctx, titleText, options)
+        descriptionText = "The following channels have NSFW permissions:\n"
+        await useful.menuFunction(ctx, titleText, options, descriptionText)
 
     @commands.command()
     @checks.is_not_banned()

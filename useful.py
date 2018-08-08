@@ -23,8 +23,9 @@ async def menuFunction(ctx, titleText, options, descriptionText=None, footerText
     for counter in range (0,len(options)):
         descriptionText+="\n"+str(options[counter][1][0])+": "+options[counter][0][0]
         validAnswers.append(options[counter][1])
-    descriptionText += "\nx: Closes Menu"
-    validAnswers.append(["x", "cancel", "exit"])
+    if descriptionText:
+        descriptionText += "\nx: Closes Menu\n"
+        validAnswers.append(["x", "cancel", "exit"])
     embed = discord.Embed(title=titleText, description=descriptionText, colour=ctx.bot.getcolour())
     if footerText:
         embed.set_footer(text=footerText)
