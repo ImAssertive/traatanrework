@@ -6,7 +6,7 @@ class setupCog:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name = "exit", aliases =['quit'], hidden = True)
+    @commands.command(name = "exit", aliases =['quit', 'kill'], hidden = True)
     @checks.justme()
     async def exit(self, ctx):
         thanos = random.randint(1,5)
