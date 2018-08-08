@@ -1,4 +1,4 @@
-import discord, asyncio, sys, traceback, checks, useful, asyncpg, random
+import discord, asyncio, sys, traceback, checks, useful, asyncpg, random, csql
 from discord.ext import commands
 
 class justmeCog:
@@ -9,14 +9,14 @@ class justmeCog:
     @checks.justme()
     async def botglobalban(self, ctx, member):
         memberid = int(useful.getid(member))
-        await sql.update("Users","banned", "true", "userID", str(memberid))
+        await csql.update("Users","banned", "true", "userID", str(memberid))
         await ctx.channel.send(":white_check_mark: | Banned user **<@" + str(memberid) + ">** from all bot commands.")
 
     @commands.command(name='botglobalunban', aliases=['bgub', 'wback'], hidden = True)
     @checks.justme()
     async def botglobalunban(self, ctx, member):
         memberid = int(useful.getid(member))
-        await sql.update("Users","banned", "false", "userID", str(memberid))
+        await csql.update("Users","banned", "false", "userID", str(memberid))
         await ctx.channel.send(":white_check_mark: | Unbanned user **<@" + str(memberid) + ">** from all bot commands.")
 
     @commands.command()

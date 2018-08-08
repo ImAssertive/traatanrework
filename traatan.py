@@ -94,7 +94,7 @@ async def run():
     accountPlatform text);''')
 
     bot = Bot(description=description, db=db)
-    initial_extensions = ['admin', 'setup', 'misc', 'roles', 'pubquiz', 'nsfw']
+    initial_extensions = ['admin', 'setup', 'misc', 'justme', 'pubquiz', 'nsfw']
     if __name__ == '__main__':
         for extension in initial_extensions:
             try:
