@@ -84,7 +84,7 @@ async def run():
     PRIMARY KEY(userID, guildID));''')
 
     bot = Bot(description=description, db=db)
-    initial_extensions = ['admin', 'setup', 'misc', 'justme', 'pubquiz', 'nsfw']
+    initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
             try:

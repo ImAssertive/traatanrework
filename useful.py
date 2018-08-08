@@ -30,7 +30,6 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
-    print(validAnswers)
     def confirmationcheck(msg):
         if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
             for j in range(0,len(validAnswers)-1):
@@ -51,7 +50,9 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
             await asyncio.sleep(1)
             await exitmsg.delete()
         else:
+            print(msg.content.lower())
             for k in range(0,len(options)-1):
+                print(options[k][1])
                 if msg.content.lower() in options[k][1]:
                     ctx.bot.cogs['adminCog'].test(ctx)
                     await ctx.bot.cogs['adminCog'].test1(ctx)
