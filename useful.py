@@ -53,7 +53,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
             for k in range(0,len(options)):
                 if msg.content.lower() in options[k][1]:
                     print(str(options[k][0][1]))
-                    eval(str(options[k][0][1]))
+                    await eval(str(options[k][0][1]))
 
             print("This should probably never be seen.")
         print("This should probably never be seen number 2.")
