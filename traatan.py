@@ -41,7 +41,7 @@ async def run():
     leaveText text,
     banned boolean DEFAULT false);
     
-    CREATE TABLE IF NOT EXISTS Commands(commandID serial PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS Commands(commandid serial PRIMARY KEY,
     name text,
     perm text,
     aliases text,
@@ -72,9 +72,9 @@ async def run():
     selfAssignable boolean DEFAULT false);
       
     CREATE TABLE IF NOT EXISTS GuildCommands(guildID bigint references Guilds(guildID) ON DELETE CASCADE ON UPDATE CASCADE,
-    userID bigint references Commands(commandID) ON DELETE CASCADE ON UPDATE CASCADE,
+    userID bigint references Commands(commandid) ON DELETE CASCADE ON UPDATE CASCADE,
     enabled boolean,
-    PRIMARY KEY(guildID, commandID));
+    PRIMARY KEY(guildID, commandid));
     
     CREATE TABLE IF NOT EXISTS GuildUsers(userID bigint references Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
     guildID bigint references Guilds(guildID) ON DELETE CASCADE ON UPDATE CASCADE,
