@@ -52,7 +52,6 @@ async def menuFunction(ctx, titleText, options, descriptionText=None, footerText
         else:
             for k in range(0,len(options)):
                 if msg.content.lower() in options[k][1]:
-                    print(str(options[k][0][1]))
                     await eval(str(options[k][0][1]))
 
 
