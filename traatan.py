@@ -81,17 +81,7 @@ async def run():
     localxp integer DEFAULT 0,
     pubquizScoreTotal integer DEFAULT 0,
     pubquizScoreWeekly integer DEFAULT 0,
-    PRIMARY KEY(userID, guildID));
-    
-    CREATE TABLE IF NOT EXISTS UserGameAccounts(accountID serial PRIMARY KEY,
-    userID bigint references Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
-    gameID serial references Games(gameID) ON DELETE CASCADE ON UPDATE CASCADE,
-    accountRank text,
-    accountName text,
-    accountRegion text,
-    accountPublic boolean DEFAULT true,
-    accountInfo text,
-    accountPlatform text);''')
+    PRIMARY KEY(userID, guildID));''')
 
     bot = Bot(description=description, db=db)
     initial_extensions = ['admin', 'setup', 'misc', 'justme', 'pubquiz', 'nsfw']
