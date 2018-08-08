@@ -47,12 +47,13 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         await menu.delete()
         if msg.content.lower() == "x" or msg.content.lower() == "cancel" or msg.content.lower() == "exit":
             exitmsg = await ctx.channel.send(":white_check_mark: | Exiting menu...")
-            await asyncio.sleep(1)
+            await asyncio.sleep(3)
             await exitmsg.delete()
         else:
             for k in range(0,len(options)):
                 if msg.content.lower() in options[k][1]:
-                    exec(str([options[k][0][1]]))
+                    print(str(options[k][0][1]))
+                    exec(str(options[k][0][1]))
 
             print("This should probably never be seen.")
         print("This should probably never be seen number 2.")
