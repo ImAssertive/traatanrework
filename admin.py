@@ -107,7 +107,7 @@ class adminCog:
     @commands.guild_only()
     async def ban(self, ctx, member, *, reason = None):
         kickban = "ban"
-        await self.bankickFunction(ctx, member, reason, kickban)
+        await self.bankickFunction(ctx, member, kickban, reason)
 
     @commands.command()
     @checks.is_not_banned()
@@ -144,7 +144,7 @@ class adminCog:
             await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The reset command has closed due to inactivity.")
         else:
             if msg.content == str(confirmationnumber):
-                embed = discord.Embed(title=":exclamation: | You have been "+ kickedbanned +" from " + ctx.guild.name,description="You have been "+ kickedbanned +" from " + ctx.guild.name + ". Details of this ban are listed below.",colour=self.bot.getcolour())
+                embed = discord.Embed(title=":exclamation: | You have been "+ kickedbanned +" from " + ctx.guild.name,description="You have been "+ kickedbanned +" from " + ctx.guild.name + ". Details of this "+kickban+" are listed below.",colour=self.bot.getcolour())
                 embed.add_field(name="User (You):", value=ctx.message.mentions[0].mention + " " + ctx.message.mentions[0].name + "#" + ctx.message.mentions[0].discriminator + " `" + str(ctx.message.mentions[0].id) + "`", inline=False)
                 embed.add_field(name="Issued by:", value=ctx.author.mention + " " + ctx.author.name + "#" + ctx.author.discriminator + " `" + str(ctx.author.id) + "`", inline=False)
                 if reason:
