@@ -30,6 +30,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
+    print(validAnswers)
     def confirmationcheck(msg):
         if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
             for j in range(0,len(validAnswers)-1):
