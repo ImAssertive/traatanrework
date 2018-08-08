@@ -49,7 +49,10 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         else:
             for k in range(0,len(options)-1):
                 if msg.content.lower() in options[k][1]:
-                    functions[options[k][0][1]]()
+                    module = __import__('admin')
+                    func = getattr(module, str([options[k][0][1]]))
+                    await func()
+
             print("This should probably never be seen.")
         print("This should probably never be seen number 2.")
 
