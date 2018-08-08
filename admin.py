@@ -10,7 +10,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setbantext")
     @commands.guild_only()
     async def setbantext(self, ctx, *, banText):
-        await csql.update("Guilds", "bantext", "banText", "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "bantext", "banText", "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Ban text set to `"+banText+"`!")
 
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
@@ -18,7 +18,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setleavechannel")
     @commands.guild_only()
     async def setleave(self, ctx):
-        await csql.update("Guilds", "leavechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "leavechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Done! Farewell channel set here.")
 
     @commands.command(name="setwelcome", aliases=['setwelcomechannel'])
@@ -26,7 +26,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setwelcomechannel")
     @commands.guild_only()
     async def setwelcome(self, ctx):
-        await csql.update("Guilds", "welcomechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "welcomechannel", str(ctx.channel.id), "guildID", str(ctx.guild.id))
         await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
 
     @commands.command()
@@ -34,7 +34,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setwelcometext")
     @commands.guild_only()
     async def setwelcometext(self, ctx, *, welcometext):
-        await csql.update("Guilds", "welcometext", welcometext, "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "welcometext", welcometext, "guildID", str(ctx.guild.id))
         await ctx.channel.send("Done! Welcome text set to ```" + welcometext + "```")
 
     @commands.command()
@@ -42,7 +42,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild", "setleavetext")
     @commands.guild_only()
     async def setfarewelltext(self, ctx, *, leavetext):
-        await csql.update("Guilds", "leavetext", leavetext, "guildID", str(ctx.guild.id))
+        await csql.update(ctx, "Guilds", "leavetext", leavetext, "guildID", str(ctx.guild.id))
         await ctx.channel.send("Done! Farewell text set to: ```" + leavetext + "```")
 
     @commands.command()
