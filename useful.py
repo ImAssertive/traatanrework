@@ -41,9 +41,10 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         msg = await ctx.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
     except asyncio.TimeoutError:
         await menu.delete()
-        await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The reset command has closed due to inactivity.")
+        await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The menu has closed due to inactivity.")
     else:
         await menu.delete()
+        print(msg.content.lower())
         if msg.content.lower() == "x" or msg.content.lower() == "cancel" or msg.content.lower() == "exit":
             exitmsg = await ctx.channel.send(":white_check_mark: | Exiting menu...")
             await asyncio.sleep(1)
