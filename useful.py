@@ -52,11 +52,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
         else:
             for k in range(0,len(options)):
                 if msg.content.lower() in options[k][1]:
-                    exec("ctx.bot.cogs['adminCog'].test(ctx)")
-                    await ctx.bot.cogs['adminCog'].test1(ctx)
-                    print([x for x, y in ctx.bot.cogs['adminCog'].__dict__.items() if type(y) == FunctionType])
-                    func = getattr(ctx.bot.cogs['adminCog'], str([options[k][0][1]]))
-                    func(ctx)
+                    exec(str([options[k][0][1]]))
 
             print("This should probably never be seen.")
         print("This should probably never be seen number 2.")
