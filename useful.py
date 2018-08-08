@@ -33,8 +33,7 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
     print(validAnswers)
     def confirmationcheck(msg):
         if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
-            for j in range(0,len(validAnswers)-1):
-                print(msg.content.lower(), validAnswers[j])
+            for j in range(0,len(validAnswers)):
                 if msg.content.lower() in validAnswers[j]:
                     return True
         return False
@@ -51,11 +50,9 @@ async def menuFunction(ctx, titleText, options, footerText=None, timeoutTime = 6
             await asyncio.sleep(1)
             await exitmsg.delete()
         else:
-            print(msg.content.lower())
             for k in range(0,len(options)):
-                print(options[k][1])
                 if msg.content.lower() in options[k][1]:
-                    ctx.bot.cogs['adminCog'].test(ctx)
+                    exec("ctx.bot.cogs['adminCog'].test(ctx))
                     await ctx.bot.cogs['adminCog'].test1(ctx)
                     print([x for x, y in ctx.bot.cogs['adminCog'].__dict__.items() if type(y) == FunctionType])
                     func = getattr(ctx.bot.cogs['adminCog'], str([options[k][0][1]]))
