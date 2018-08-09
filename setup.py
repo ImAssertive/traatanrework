@@ -61,6 +61,9 @@ class setupCog:
             await self.bot.db.execute(query, 8, "nsfw", "manage_guild", "togglensfw | setnsfw", "Toggles NSFW commands in the specified chat.", "`tt!nsfw <#CHANNEL>` or `tt!nsfw`", "tt!nsfw #General")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, 9, "listnsfw", "manage_guild", "nsfwlist", "Lists NSFW channels in the guild.", "`tt!listnsfw`", "tt!listnsfw")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 9, "setwelcome", "manage_guild", "setwelcomechannel", "Sets the channel for a welcome message to be sent upon a new user joining the server.", "`tt!setwelcome` or `tt!setwelcome <#CHANNEL>`", "tt!setwelcome #General")
+
         await self.bot.db.release(connection)
         await ctx.channel.send(":white_check_mark: | Done!")
 

@@ -72,11 +72,11 @@ class adminCog:
         await csql.update(ctx, "Guilds", "welcometext", welcometext, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Done! Welcome text set to: ```" + welcometext + "```")
 
-    @commands.command()
+    @commands.command(name='setleavetext', aliases=['setfarewelltext'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavetext")
     @commands.guild_only()
-    async def setfarewelltext(self, ctx, *, leavetext):
+    async def setleavetext(self, ctx, *, leavetext):
         await csql.update(ctx, "Guilds", "leavetext", leavetext, "guildID", ctx.guild.id)
         await ctx.channel.send("Done! Farewell text set to: ```" + leavetext + "```")
 
@@ -283,6 +283,7 @@ class adminCog:
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
             channelid = useful.getid(channel)
+            print(channelid)
             try:
                 await ctx.guild.get_channel(channelid)
             except:
