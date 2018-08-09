@@ -266,7 +266,7 @@ class adminCog:
         for channel in ctx.guild.text_channels:
             if channel.is_nsfw():
                 totalcount += 1
-                descriptionText += "\n" + str(totalcount) ": " + channel.name
+                descriptionText += "\n" + str(totalcount) +": " + channel.name
         await useful.menuFunction(ctx, titleText, descriptionText)
 
     @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
