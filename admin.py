@@ -205,17 +205,26 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild","togglecommand")
     @commands.guild_only()
     async def enablecommand(self, ctx, *, commandname):
-        enableddisabled = "enabled"
-        await self.commandToggleFunction(ctx, commandname, enableddisabled)
+        if ctx.message.channel_mentions:
+            enabledisable = "enable"
+            channel = ctx.message.channel_mentions[0].id
+            await self.toggleChannelFunction(ctx, enabledisable, channel)
+        else:
+            enableddisabled = "enabled"
+            await self.commandToggleFunction(ctx, commandname, enableddisabled)
 
     @commands.command(name="disablecommand", aliases=['disable'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild","togglecommand")
     @commands.guild_only()
     async def disablecommand(self, ctx, *, commandname):
-        print(ctx.message.mentions)
-        enableddisabled = "disabled"
-        await self.commandToggleFunction(ctx, commandname, enableddisabled)
+        if ctx.channel.channel_mentions:
+            enabledisable = "disable"
+            channel = ctx.message.channel_mentions[0].id
+            await self.toggleChannelFunction(ctx, enabledisable, channel)
+        else:
+            enableddisabled = "disabled"
+            await self.commandToggleFunction(ctx, commandname, enableddisabled)
 
     async def commandToggleFunction(self, ctx, commandname, enableddisabled):
         query = "SELECT * FROM Commands"
@@ -264,11 +273,10 @@ class adminCog:
             await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
-            try:
-                channelid = useful.getid(channel)
-            except:
+            if ctx.channel.channel_mentions[0] == None:
                 await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
                 return
+            channelid = ctx.message.channel_mentions[0].id
             if ctx.guild.get_channel(channelid) != None:
                 if ctx.guild.get_channel(channelid).is_nsfw():
                     ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
