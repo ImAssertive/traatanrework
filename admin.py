@@ -21,6 +21,40 @@ class adminCog:
         await csql.update(ctx, "Guilds", "kicktext", kickText, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Kick text set to: ```"+kickText+"```")
 
+    #     options = []
+    #     titleText = "NSFW Command Menu"
+    #     if ctx.channel.is_nsfw():
+    #         options.append([["Disable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","disable"]])
+    #     else:
+    #         options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","enable"]])
+    #     options.append([["List NSFW Channels", "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], ["1","list"]])
+    #     footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
+    #     descriptionText = "Options:\n"
+    #     await useful.menuFunction(ctx, titleText, options, descriptionText, footerText)
+
+
+    @commands.command(name='setprefix', aliases=['prefix', 'customprefix'])
+    @checks.is_not_banned()
+    async def setprefix(self, ctx, *, prefix):
+        options = []
+        if ctx.author.guild_permissions.manage_guild:
+            titleText = "Prefix Command Menu"
+            options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, prefix)"],["0","guild","server"]])
+            options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, prefix)"],["1","me","personal"]])
+            footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + prefix + ")"
+            descriptionText = "Options:\n"
+            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, prefix)
+        else:
+            await self.prefixPersonalMenu(ctx, prefix)
+
+    async def prefixGuildMenu(self, ctx, prefix):
+        await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
+        await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
+
+    async def prefixPersonalMenu(ctx, ctx, prefix):
+        await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
+        await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
+
 
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
     @checks.is_not_banned()
