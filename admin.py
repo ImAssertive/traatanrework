@@ -32,7 +32,7 @@ class adminCog:
             options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, kwargs)"],["1","me","personal"]])
             footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + enteredprefix + ")"
             descriptionText = "Options:\n"
-            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, prefix=enteredprefix)
+            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, userresponse = True, prefix=enteredprefix)
         else:
             await self.prefixPersonalMenu(ctx, enteredprefix)
 
@@ -267,9 +267,8 @@ class adminCog:
             if channel.is_nsfw():
                 totalcount += 1
                 options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
-        options.append([[" ",""], [""]])
         descriptionText = "The following channels have NSFW permissions:\n"
-        await useful.menuFunction(ctx, titleText, options, descriptionText)
+        await useful.menuFunction(ctx, titleText, options, descriptionText, userresponse = False)
 
     @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
     @checks.is_not_banned()

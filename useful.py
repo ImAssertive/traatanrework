@@ -21,7 +21,7 @@ def getMenuEmoji(noOfOptions):
     toReturn.append("❌")
     return toReturn
 
-async def menuFunction(ctx, titleText, options, descriptionText=None, footerText=None, timeoutTime = 60.0, **kwargs):
+async def menuFunction(ctx, titleText, options, descriptionText=None, footerText=None, timeoutTime = 60.0, userresponse = False, **kwargs):
     validAnswers = []
     for counter in range (0,len(options)):
         descriptionText+="\n"+str(options[counter][1][0])+": "+options[counter][0][0]
@@ -33,27 +33,28 @@ async def menuFunction(ctx, titleText, options, descriptionText=None, footerText
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
-    def confirmationcheck(msg):
-        if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
-            for j in range(0,len(validAnswers)):
-                if msg.content.lower() in validAnswers[j]:
-                    return True
-        return False
-        ##return (msg.content.lower() in validAnswers) and ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id
-    try:
-        msg = await ctx.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
-    except asyncio.TimeoutError:
-        await menu.delete()
-        await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** - The menu has closed due to inactivity.")
-    else:
-        await menu.delete()
-        if msg.content.lower() == "x" or msg.content.lower() == "cancel" or msg.content.lower() == "exit":
-            exitmsg = await ctx.channel.send(":white_check_mark: | Exiting menu...")
-            await asyncio.sleep(2)
-            await exitmsg.delete()
+    if userresponse:
+        def confirmationcheck(msg):
+            if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
+                for j in range(0,len(validAnswers)):
+                    if msg.content.lower() in validAnswers[j]:
+                        return True
+            return False
+            ##return (msg.content.lower() in validAnswers) and ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id
+        try:
+            msg = await ctx.bot.wait_for('message', check=confirmationcheck, timeout=timeoutTime)
+        except asyncio.TimeoutError:
+            await menu.delete()
+            await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** - The menu has closed due to inactivity.")
         else:
-            for k in range(0,len(options)):
-                if msg.content.lower() in options[k][1]:
-                    await eval(str(options[k][0][1]))
+            await menu.delete()
+            if msg.content.lower() == "x" or msg.content.lower() == "cancel" or msg.content.lower() == "exit":
+                exitmsg = await ctx.channel.send(":white_check_mark: | Exiting menu...")
+                await asyncio.sleep(2)
+                await exitmsg.delete()
+            else:
+                for k in range(0,len(options)):
+                    if msg.content.lower() in options[k][1]:
+                        await eval(str(options[k][0][1]))
 
 
