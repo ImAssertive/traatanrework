@@ -87,7 +87,7 @@ async def run():
     pubquizScoreWeekly integer DEFAULT 0,
     PRIMARY KEY(userID, guildID));''')
 
-    async def get_prefix(bot, ctx):
+    async def get_pre(bot, ctx):
         prefixes = []
         query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
         result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
@@ -101,7 +101,7 @@ async def run():
             prefixes = "tt!"
         return prefixes
 
-    bot = Bot(description=description, db=db)
+    bot = Bot(description=description, db=db, command_prefix=get_pre)
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
@@ -124,7 +124,6 @@ class Bot(commands.Bot):
         )
 
         #self.pubquizAnswers = []
-        self.command_prefix = get_prefix(bot, ctx)
         self.db = kwargs.pop("db")
         self.currentColour = -1
         self.outcomes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes - definitely",
@@ -139,6 +138,7 @@ class Bot(commands.Bot):
         print("Username: {0}\nID: {0.id}".format(self.user))
         game = discord.Game("chess with Rainbow Restarter!")
         await self.change_presence(status=discord.Status.online, activity=game)
+        self.remove_command("help")
 
     def getcolour(self):
         colours = ["5C6BC0", "AB47BC", "EF5350", "FFA726", "FFEE58", "66BB6A", "5BCEFA", "F5A9B8", "FFFFFF", "F5A9B8", "5BCEFA"]
