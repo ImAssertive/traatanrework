@@ -23,23 +23,26 @@ class adminCog:
 
     @commands.command(name='setprefix', aliases=['prefix', 'customprefix'])
     @checks.is_not_banned()
-    async def setprefix(self, ctx, *, prefix):
+    async def setprefix(self, ctx, *, enteredprefix):
         options = []
         if ctx.author.guild_permissions.manage_guild:
             titleText = "Prefix Command Menu"
-            options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, prefix)"],["0","guild","server"]])
-            options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, prefix)"],["1","me","personal"]])
+            options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, kwargsDict)"],["0","guild","server"]])
+            options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, kwargs)"],["1","me","personal"]])
             footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + prefix + ")"
             descriptionText = "Options:\n"
-            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, prefix)
+            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, prefix=enteredprefix)
         else:
-            await self.prefixPersonalMenu(ctx, prefix)
+            await self.prefixPersonalMenu(ctx, enteredprefix)
 
-    async def prefixGuildMenu(self, ctx, prefix):
+    async def prefixGuildMenu(self, ctx, kwargsDict):
+        prefix = kwargsDict["enteredprefix"]
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
     async def prefixPersonalMenu(self, ctx, prefix):
+        if isinstance(prefix, dict):
+            prefix = prefix["prefix"]
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
