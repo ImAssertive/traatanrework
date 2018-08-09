@@ -23,6 +23,7 @@ class adminCog:
 
     @commands.command(name='setprefix', aliases=['prefix', 'customprefix'])
     @checks.is_not_banned()
+    @commands.guild_only()
     async def setprefix(self, ctx, *, enteredprefix):
         options = []
         if ctx.author.guild_permissions.manage_guild:
@@ -266,6 +267,7 @@ class adminCog:
             if channel.is_nsfw():
                 totalcount += 1
                 options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
+        options.append([[" ",""], [""]])
         descriptionText = "The following channels have NSFW permissions:\n"
         await useful.menuFunction(ctx, titleText, options, descriptionText)
 

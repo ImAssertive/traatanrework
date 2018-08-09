@@ -33,7 +33,6 @@ async def menuFunction(ctx, titleText, options, descriptionText=None, footerText
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
-    print(validAnswers)
     def confirmationcheck(msg):
         if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
             for j in range(0,len(validAnswers)):
@@ -50,7 +49,7 @@ async def menuFunction(ctx, titleText, options, descriptionText=None, footerText
         await menu.delete()
         if msg.content.lower() == "x" or msg.content.lower() == "cancel" or msg.content.lower() == "exit":
             exitmsg = await ctx.channel.send(":white_check_mark: | Exiting menu...")
-            await asyncio.sleep(3)
+            await asyncio.sleep(2)
             await exitmsg.delete()
         else:
             for k in range(0,len(options)):
