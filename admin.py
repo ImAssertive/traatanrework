@@ -29,7 +29,7 @@ class adminCog:
             titleText = "Prefix Command Menu"
             options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, kwargsDict)"],["0","guild","server"]])
             options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, kwargs)"],["1","me","personal"]])
-            footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + prefix + ")"
+            footerText = str("Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + prefix + ")")
             descriptionText = "Options:\n"
             await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, prefix=enteredprefix)
         else:
