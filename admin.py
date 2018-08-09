@@ -223,9 +223,8 @@ class adminCog:
             channel = ctx.message.channel_mentions[0].id
             await self.toggleChannelFunction(ctx, enabledisable, channel)
         elif commandname == None:
-            channel = ctx.channel.id
             enabledisable = "disable"
-            await self.toggleChannelFunction(ctx, enabledisable, channel)
+            await self.toggleChannelFunction(ctx, enabledisable)
         else:
             enableddisabled = "disabled"
             await self.commandToggleFunction(ctx, commandname, enableddisabled)
