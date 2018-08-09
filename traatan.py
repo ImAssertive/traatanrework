@@ -101,7 +101,7 @@ async def run():
             prefixes = "tt!"
         return prefixes
 
-    bot = Bot(description=description, db=db, command_prefix=get_prefix())
+    bot = Bot(description=description, db=db, command_prefix=get_prefix(bot, ctx))
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
