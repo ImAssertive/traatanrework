@@ -101,7 +101,7 @@ async def run():
             prefixes = "tt!"
         return prefixes
 
-    bot = Bot(description=description, db=db, command_prefix=get_prefix(bot, ctx))
+    bot = Bot(description=description, db=db)
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
@@ -124,6 +124,7 @@ class Bot(commands.Bot):
         )
 
         #self.pubquizAnswers = []
+        self.command_prefix = get_prefix(bot, ctx)
         self.db = kwargs.pop("db")
         self.currentColour = -1
         self.outcomes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes - definitely",
