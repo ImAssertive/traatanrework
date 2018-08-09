@@ -7,11 +7,11 @@ from discord.ext import commands
 async def get_pre(bot, ctx):
     prefixes = []
     query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
-    result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
+    result = await bot.db.fetchrow(query, ctx.guild.id)
     if result:
         prefixes.append(result["prefix"])
     query = "SELECT * FROM Users WHERE userid = $1 AND prefix IS NOT NULL"
-    result = await ctx.bot.db.fetchrow(query, ctx.author.id)
+    result = await bot.db.fetchrow(query, ctx.author.id)
     if result:
         prefixes.append(result["prefix"])
     if prefixes == []:
