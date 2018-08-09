@@ -223,8 +223,8 @@ class adminCog:
                 commandresult = await ctx.bot.db.fetchrow(query, result["commandid"], ctx.guild.id)
                 async with connection.transaction():
                     if commandresult == None:
-                        query = "INSERT INTO GuildCommands(channelid, commandid) VALUES ($1, $2)"
-                        await ctx.bot.db.execute(query, ctx.channel.id, result["commandid"])
+                        query = "INSERT INTO GuildCommands(guildid, commandid) VALUES ($1, $2)"
+                        await ctx.bot.db.execute(query, ctx.guild.id, result["commandid"])
                     if enableddisabled == "enabled":
                         query = "UPDATE GuildCommands SET enabled = true WHERE commandid = $1 AND guildid = $2"
                     elif enableddisabled == "disabled":

@@ -31,7 +31,7 @@ def justme():
 
 def command_is_enabled(command):
     async def predicate(ctx):
-        query = "SELECT * FROM GuildCommands WHERE commandid = $1 AND enabled = false"
+        query = "SELECT * FROM GuildCommands WHERE guildid = $1 AND enabled = false"
         result = await ctx.bot.db.fetchrow(query, ctx.author.id)
         if result:
             return False
