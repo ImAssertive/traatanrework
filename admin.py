@@ -131,6 +131,8 @@ class adminCog:
     @checks.is_not_banned()
     @commands.has_permissions(ban_members=True)
     @commands.guild_only()
+    @checks.command_is_enabled(2)
+    @checks.channel_is_enabled()
     async def ban(self, ctx, member, *, reason = None):
         kickban = "ban"
         await self.bankickFunction(ctx, member, kickban, reason)
@@ -140,6 +142,7 @@ class adminCog:
     @commands.has_permissions(kick_members=True)
     @commands.guild_only()
     @checks.command_is_enabled(1)
+    @checks.channel_is_enabled()
     async def kick(self, ctx, member, *, reason = None):
         kickban = "kick"
         await self.bankickFunction(ctx, member, kickban, reason)
@@ -254,6 +257,8 @@ class adminCog:
     @commands.command(name="listnsfw", aliases=['nsfwlist'])
     @checks.is_not_banned()
     @commands.guild_only()
+    @checks.channel_is_enabled()
+    @checks.command_is_enabled(9)
     async def listnsfw(self, ctx):
         totalcount = 0
         titleText = "NSFW Command Menu"
@@ -268,6 +273,8 @@ class adminCog:
     @checks.is_not_banned()
     @commands.has_permissions(manage_guild = True)
     @commands.guild_only()
+    @checks.channel_is_enabled()
+    @checks.command_is_enabled(8)
     async def nsfw(self, ctx, channel=None):
         if ctx.channel.is_nsfw() and channel == None:
             await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
