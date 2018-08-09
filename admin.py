@@ -213,6 +213,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild","togglecommand")
     @commands.guild_only()
     async def disablecommand(self, ctx, *, commandname):
+        print(ctx.message.mentions)
         enableddisabled = "disabled"
         await self.commandToggleFunction(ctx, commandname, enableddisabled)
 
