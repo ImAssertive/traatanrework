@@ -274,7 +274,6 @@ class adminCog:
     @commands.has_permissions(manage_guild = True)
     @commands.guild_only()
     async def nsfw(self, ctx, channel=None):
-        success = True
         if ctx.channel.is_nsfw() and channel == None:
             await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
             await ctx.channel.edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
@@ -283,12 +282,7 @@ class adminCog:
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
             channelid = useful.getid(channel)
-            try:
-                x = ctx.guild.get_channel(channelid)
-            except:
-                await ctx.channel.send(":no_entry: | Channel not found.")
-                success = False
-            if success:
+            if ctx.guild.get_channel(channelid) != None:
                 if ctx.guild.get_channel(channelid).is_nsfw():
                     ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
                     await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is no longer an NSFW channel.")
