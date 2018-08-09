@@ -273,19 +273,20 @@ class adminCog:
             await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
-            if ctx.message.channel_mentions[0] == None:
+            if ctx.message.channel_mentions == None:
                 await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
                 return
-            channelid = ctx.message.channel_mentions[0].id
-            if ctx.guild.get_channel(channelid) != None:
-                if ctx.guild.get_channel(channelid).is_nsfw():
-                    ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-                    await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is no longer an NSFW channel.")
-                else:
-                    ctx.guild.get_channel(channelid).edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-                    await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is now an NSFW channel.")
             else:
-                await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
+                channelid = ctx.message.channel_mentions[0].id
+                if ctx.guild.get_channel(channelid) != None:
+                    if ctx.guild.get_channel(channelid).is_nsfw():
+                        ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+                        await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is no longer an NSFW channel.")
+                    else:
+                        ctx.guild.get_channel(channelid).edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+                        await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is now an NSFW channel.")
+                else:
+                    await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
 
     @commands.command(name="enablechannel", aliases =['unignorechannel', 'unignore'])
     @checks.is_not_banned()
