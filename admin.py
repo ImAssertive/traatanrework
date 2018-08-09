@@ -226,14 +226,14 @@ class adminCog:
                 connection = await ctx.bot.db.acquire()
                 async with connection.transaction():
                     if enableddisabled == "enabled":
-                        query = "UPDATE GuildCommands SET enabled = true WHERE commandID = $1 AND guildID = $2"
+                        query = "UPDATE GuildCommands SET enabled = true WHERE commandid = $1 AND guildid = $2"
                     elif enableddisabled == "disabled":
-                        query = "UPDATE GuildCommands SET enabled = false WHERE commandID = $1 AND guildID = $2"
+                        query = "UPDATE GuildCommands SET enabled = false WHERE commandid = $1 AND guildid = $2"
                     await ctx.bot.db.execute(query, result["commandID"], ctx.guild.id)
                 await ctx.bot.db.release(connection)
                 await ctx.channel.send(":white_check_mark: | **"+enableddisabled.title()+"** the **"+commandname+"** command.")
                 return
-        ##await ctx.channel.send(":no_entry: | Command not found.")
+        await ctx.channel.send(":no_entry: | Command not found.")
 
     @commands.command(name="listnsfw", aliases=['nsfwlist'])
     @checks.is_not_banned()
