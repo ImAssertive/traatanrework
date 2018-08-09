@@ -221,6 +221,7 @@ class adminCog:
         if ctx.message.channel_mentions != []:
             enabledisable = "disable"
             channel = ctx.message.channel_mentions[0].id
+            print(channel)
             await self.toggleChannelFunction(ctx, enabledisable, channel)
         elif commandname == None:
             enabledisable = "disable"
