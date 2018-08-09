@@ -4,6 +4,20 @@ from discord.ext import commands
 # def getPrefix(bot, message):
 #     prefixes = ["re!"]
 #     return commands.when_mentioned_or(*prefixes)(bot, message)
+async def get_pre(bot, ctx):
+    prefixes = []
+    query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
+    result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
+    if result:
+        prefixes.append(result["prefix"])
+    query = "SELECT * FROM Users WHERE userid = $1 AND prefix IS NOT NULL"
+    result = await ctx.bot.db.fetchrow(query, ctx.author.id)
+    if result:
+        prefixes.append(result["prefix"])
+    if prefixes == []:
+        prefixes = "tt!"
+    return prefixes
+
 
 async def run():
     description = "Assertive's new bot. Please remind them to change this text if you see it."
@@ -87,19 +101,6 @@ async def run():
     pubquizScoreWeekly integer DEFAULT 0,
     PRIMARY KEY(userID, guildID));''')
 
-    async def get_pre(bot, ctx):
-        prefixes = []
-        query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
-        result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
-        if result:
-            prefixes.append(result["prefix"])
-        query = "SELECT * FROM Users WHERE userid = $1 AND prefix IS NOT NULL"
-        result = await ctx.bot.db.fetchrow(query, ctx.author.id)
-        if result:
-            prefixes.append(result["prefix"])
-        if prefixes == []:
-            prefixes = "tt!"
-        return prefixes
 
     bot = Bot(description=description, db=db)
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
