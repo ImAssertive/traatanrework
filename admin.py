@@ -232,7 +232,7 @@ class adminCog:
                 await ctx.bot.db.release(connection)
                 await ctx.channel.send(":white_check_mark: | **"+enableddisabled.title()+"** the **"+commandname+"** command.")
                 return
-        await ctx.channel.send(":no_entry: | Command not found.")
+        ##await ctx.channel.send(":no_entry: | Command not found.")
 
     @commands.command(name="listnsfw", aliases=['nsfwlist'])
     @checks.is_not_banned()
