@@ -36,7 +36,7 @@ class adminCog:
             await self.prefixPersonalMenu(ctx, enteredprefix)
 
     async def prefixGuildMenu(self, ctx, kwargsDict):
-        prefix = kwargsDict["enteredprefix"]
+        prefix = kwargsDict["prefix"]
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
