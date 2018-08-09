@@ -204,27 +204,36 @@ class adminCog:
                 break
         await ctx.channel.send(":no_entry: | Command not found.")
 
-    async def nsfwMainMenu(self, ctx):
-        options = []
-        titleText = "NSFW Command Menu"
-        if ctx.channel.is_nsfw():
-            options.append([["Disable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","disable"]])
-        else:
-            options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","enable"]])
-        options.append([["List NSFW Channels", "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], ["1","list"]])
-        footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
-        descriptionText = "Options:\n"
-        await useful.menuFunction(ctx, titleText, options, descriptionText, footerText)
+    # async def nsfwMainMenu(self, ctx):
+    #     options = []
+    #     titleText = "NSFW Command Menu"
+    #     if ctx.channel.is_nsfw():
+    #         options.append([["Disable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","disable"]])
+    #     else:
+    #         options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","enable"]])
+    #     options.append([["List NSFW Channels", "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], ["1","list"]])
+    #     footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
+    #     descriptionText = "Options:\n"
+    #     await useful.menuFunction(ctx, titleText, options, descriptionText, footerText)
+    #
+    # async def nsfwToggleMenu(self, ctx):
+    #     if ctx.channel.is_nsfw():
+    #         await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
+    #         await ctx.channel.edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+    #     else:
+    #         await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
+    #         await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+    # @commands.command()
+    # @checks.is_not_banned()
+    # @commands.has_permissions(manage_guild = True)
+    # @commands.guild_only()
+    # async def nsfw(self, ctx):
+    #     await self.nsfwMainMenu(ctx)
 
-    async def nsfwToggleMenu(self, ctx):
-        if ctx.channel.is_nsfw():
-            await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
-            await ctx.channel.edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-        else:
-            await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
-            await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-
-    async def listNSFWChannels(self, ctx):
+    @commands.command(name="listnsfw", aliases=['nsfwlist'])
+    @checks.is_not_banned()
+    @commands.guild_only()
+    async def listnsfw(self, ctx):
         options = []
         totalcount = 0
         titleText = "NSFW Command Menu"
@@ -232,17 +241,35 @@ class adminCog:
             if channel.is_nsfw():
                 totalcount += 1
                 options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
-        options.append([["Back to menu", "ctx.bot.cogs['adminCog'].nsfwMainMenu(ctx)"], [str(totalcount+1),"back"]])
         descriptionText = "The following channels have NSFW permissions:\n"
         await useful.menuFunction(ctx, titleText, options, descriptionText)
 
-    @commands.command()
+    @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
     @checks.is_not_banned()
     @commands.has_permissions(manage_guild = True)
     @commands.guild_only()
-    async def nsfw(self, ctx):
-        await self.nsfwMainMenu(ctx)
-
+    async def nsfw(self, ctx, channel=None):
+        success = True
+        if ctx.channel.is_nsfw() and channel == None:
+            await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
+            await ctx.channel.edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+        elif (not ctx.channel.is_nsfw()) and channel == None:
+            await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
+            await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+        elif channel != None:
+            channelid = useful.getid(channel)
+            try:
+                await ctx.guild.get_channel(channelid)
+            except:
+                await ctx.channel.send(":no_entry: | Channel not found.")
+                success = False
+            if success:
+                if ctx.guild.get_channel(channelid).is_nsfw():
+                    ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+                    await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is no longer an NSFW channel.")
+                else:
+                    ctx.guild.get_channel(channelid).edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
+                    await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is now an NSFW channel.")
 
 
 def setup(bot):

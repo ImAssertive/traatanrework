@@ -38,6 +38,33 @@ class setupCog:
         await self.bot.db.release(connection)
         await ctx.channel.send(":white_check_mark: | Done!")
 
+    @commands.command(hidden = True)
+    @checks.justme()
+    async def addcommands(self, ctx):
+        connection = await self.bot.db.acquire()
+        async with connection.transaction():
+            query = "INSERT INTO Commands (commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 1, "kick", "kick_members", "Kicks the mentioned user. Can attatch an optional reason for the kick after the user mention.", "`tt!kick <@USER>` or `tt!kick <@USER> <Reason>`", "tt!kick @MrSpam#0001 Spamming in general.")
+            query = "INSERT INTO Commands (commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 2, "ban", "ban_members", "Bans the mentioned user. Can attatch an optional reason for the ban after the user mention.", "`tt!ban <@USER>` or `tt!ban <@USER> <Reason>`", "tt!ban @MrSpam#0001 Spamming in general.")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 3, "enable", "manage_guild", "enablecommand", "Enables the specified command. Can be either channel or server wide. Excludes blacklisted channels.", "`tt!enable CommandName`", "tt!enable Eightball")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 4, "disable", "manage_guild", "disablecommand | ignorecommand", "Disables the specified command. Can be either channel or server wide.", "tt!disable CommandName", "tt!disable Eightball")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 5, "listcommands", "manage_guild", "commandslist", "Lists the enabled status of each command.", "tt!disable CommandName", "tt!disable Eightball")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 6, "disablechannel", "manage_guild", "ignorechannel | ignore", "Disables all commands in the specified channel.", "`tt!disable <#CHANNEL>` or `tt!disable`", "tt!disable #General")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 7, "enablechannel", "manage_guild", "unignorechannel | unignore", "Enables all commands in the specified channel.", "`tt!enable <#CHANNEL>` or `tt!enable`", "tt!enable #General")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 8, "nsfw", "manage_guild", "togglensfw | setnsfw", "Toggles NSFW commands in the specified chat.", "`tt!nsfw <#CHANNEL>` or `tt!nsfw`", "tt!nsfw #General")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 9, "listnsfw", "manage_guild", "nsfwlist", "Lists NSFW channels in the guild.", "`tt!listnsfw`", "tt!listnsfw")
+        await self.bot.db.release(connection)
+        await ctx.channel.send(":white_check_mark: | Done!")
+
+
     @commands.command(hidden= True)
     @checks.justme()
     async def addroles(self, ctx):

@@ -2,6 +2,9 @@ import discord, asyncio, sys, traceback, checks, useful, asyncpg, random
 from discord.ext import commands
 from types import FunctionType
 
+def getid(mention):
+    id = int("".join(each for each in mention if each.isdigit()))
+    return id
 
 def formatText(ctx, text):
     return text.replace("%user%", ctx.mention)

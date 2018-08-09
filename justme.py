@@ -27,6 +27,11 @@ class justmeCog:
 
     @commands.command()
     @checks.justme()
+    async def echo(self, ctx, *, texttoecho):
+        await ctx.channel.send(texttoecho)
+
+    @commands.command()
+    @checks.justme()
     async def evalquery(self, ctx, *, query):
         connection = await self.bot.db.acquire()
         async with connection.transaction():

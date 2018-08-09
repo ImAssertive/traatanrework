@@ -1,9 +1,9 @@
 import discord, asyncio, sys, traceback, checks, asyncpg, useful, credentialsFile
 from discord.ext import commands
 
-def getPrefix(bot, message):
-    prefixes = ["re!"]
-    return commands.when_mentioned_or(*prefixes)(bot, message)
+# def getPrefix(bot, message):
+#     prefixes = ["re!"]
+#     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 async def run():
     description = "Assertive's new bot. Please remind them to change this text if you see it."
@@ -12,6 +12,7 @@ async def run():
     await db.execute('''CREATE TABLE IF NOT EXISTS Users(userID bigint PRIMARY KEY,
     xp bigint DEFAULT 0,
     backgroundimg text,
+    prefix text,
     rep bigint DEFAULT 0,
     infotext text,
     titletext text,
@@ -45,8 +46,11 @@ async def run():
     name text,
     perm text,
     aliases text,
+    infotext text,
     usagetext text,
-    exampletext text);
+    exampletext text,
+    gifurl text,
+    canbedisabled boolean);
     
     CREATE TABLE IF NOT EXISTS Roles(roleID bigint PRIMARY KEY,
     guildID bigint references Guilds(guildID) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -83,7 +87,21 @@ async def run():
     pubquizScoreWeekly integer DEFAULT 0,
     PRIMARY KEY(userID, guildID));''')
 
-    bot = Bot(description=description, db=db)
+    async def get_prefix(bot, ctx):
+        prefixes = []
+        query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
+        result = await ctx.bot.db.fetchrow(query, ctx.guild.id)
+        if result:
+            prefixes.append(result["prefix"])
+        query = "SELECT * FROM Users WHERE userid = $1 AND prefix IS NOT NULL"
+        result = await ctx.bot.db.fetchrow(query, ctx.author.id)
+        if result:
+            prefixes.append(result["prefix"])
+        if prefixes == []:
+            prefixes = "tt!"
+        return prefixes
+
+    bot = Bot(description=description, db=db, command_prefix=get_prefix())
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
@@ -103,10 +121,9 @@ class Bot(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(
             description=kwargs.pop("description"),
-            command_prefix=getPrefix
         )
 
-        self.pubquizAnswers = []
+        #self.pubquizAnswers = []
         self.db = kwargs.pop("db")
         self.currentColour = -1
         self.outcomes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes - definitely",
@@ -115,6 +132,7 @@ class Bot(commands.Bot):
                     "Reply hazy, try again", "Ask again later", "Better not tell you now",
                     "Cannot predict now", "Concentrate and ask again", "Don't count on it",
                     "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"]
+
 
     async def on_ready(self):
         print("Username: {0}\nID: {0.id}".format(self.user))
