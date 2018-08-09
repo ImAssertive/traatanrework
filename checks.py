@@ -29,6 +29,16 @@ def justme():
             return False
     return commands.check(predicate)
 
+def command_is_enabled(command):
+    async def predicate(ctx):
+        query = "SELECT * FROM GuildCommands WHERE commandid = $1 AND enabled = false"
+        result = await ctx.bot.db.fetchrow(query, ctx.author.id)
+        if result:
+            return False
+        return True
+    return commands.check(predicate)
+
+
 def is_not_banned():
     async def predicate(ctx):
         query = "SELECT * FROM Users WHERE userID = $1 AND banned = false"

@@ -216,15 +216,15 @@ class adminCog:
     async def commandToggleFunction(self, ctx, commandname, enableddisabled):
         query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
-        print(results)
         for result in results:
-            print(result)
-            print(result["aliases"].split(", "))
-            print(result["name"])
-            print(commandname.lower)
             if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No alises!"):
                 connection = await ctx.bot.db.acquire()
+                query = "SELECT * FROM GuildCommands WHERE commandid = $1 AND guildid = $2"
+                commandresult = await ctx.bot.db.fetchrow(query, result["commandid"], ctx.guild.id)
                 async with connection.transaction():
+                    if commandresult == None:
+                        query = "INSERT INTO GuildCommands(channelid, commandid) VALUES ($1, $2)"
+                        await ctx.bot.db.execute(query, ctx.channel.id, result["commandid"])
                     if enableddisabled == "enabled":
                         query = "UPDATE GuildCommands SET enabled = true WHERE commandid = $1 AND guildid = $2"
                     elif enableddisabled == "disabled":
