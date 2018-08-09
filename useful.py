@@ -21,19 +21,19 @@ def getMenuEmoji(noOfOptions):
     toReturn.append("❌")
     return toReturn
 
-async def menuFunction(ctx, titleText, options, descriptionText=None, footerText=None, timeoutTime = 60.0, userresponse = False, **kwargs):
-    validAnswers = []
-    for counter in range (0,len(options)):
-        descriptionText+="\n"+str(options[counter][1][0])+": "+options[counter][0][0]
-        validAnswers.append(options[counter][1])
-    if descriptionText:
+async def menuFunction(ctx, titleText, descriptionText, options=None, footerText=None, timeoutTime = 60.0, **kwargs):
+    if options:
+        validAnswers = []
+        for counter in range (0,len(options)):
+            descriptionText+="\n"+str(options[counter][1][0])+": "+options[counter][0][0]
+            validAnswers.append(options[counter][1])
         descriptionText += "\nx: Closes Menu\n"
         validAnswers.append(["x", "cancel", "exit"])
     embed = discord.Embed(title=titleText, description=descriptionText, colour=ctx.bot.getcolour())
     if footerText:
         embed.set_footer(text=footerText)
     menu = await ctx.channel.send(embed=embed)
-    if userresponse:
+    if options:
         def confirmationcheck(msg):
             if ctx.channel.id == msg.channel.id and msg.author.id == ctx.author.id:
                 for j in range(0,len(validAnswers)):

@@ -32,7 +32,7 @@ class adminCog:
             options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, kwargs)"],["1","me","personal"]])
             footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + enteredprefix + ")"
             descriptionText = "Options:\n"
-            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, userresponse = True, prefix=enteredprefix)
+            await useful.menuFunction(ctx, titleText, descriptionText, options, footerText, 60.0, prefix=enteredprefix)
         else:
             await self.prefixPersonalMenu(ctx, enteredprefix)
 
@@ -260,15 +260,14 @@ class adminCog:
     @checks.is_not_banned()
     @commands.guild_only()
     async def listnsfw(self, ctx):
-        options = []
         totalcount = 0
         titleText = "NSFW Command Menu"
+        descriptionText = "The following channels have NSFW permissions:\n"
         for channel in ctx.guild.text_channels:
             if channel.is_nsfw():
                 totalcount += 1
-                options.append([[channel.name, "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], [str(totalcount)]])
-        descriptionText = "The following channels have NSFW permissions:\n"
-        await useful.menuFunction(ctx, titleText, options, descriptionText, userresponse = False)
+                descriptionText += "\n" + str(totalcount) ": " + channel.name
+        await useful.menuFunction(ctx, titleText, descriptionText)
 
     @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
     @checks.is_not_banned()
