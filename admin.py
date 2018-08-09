@@ -283,12 +283,11 @@ class adminCog:
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
             channelid = useful.getid(channel)
-            print(channelid)
-            # try:
-            #     await ctx.guild.get_channel(channelid)
-            # except:
-            #     await ctx.channel.send(":no_entry: | Channel not found.")
-            #     success = False
+            try:
+                x = ctx.guild.get_channel(channelid)
+            except:
+                await ctx.channel.send(":no_entry: | Channel not found.")
+                success = False
             if success:
                 if ctx.guild.get_channel(channelid).is_nsfw():
                     ctx.guild.get_channel(channelid).edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
