@@ -218,7 +218,7 @@ class adminCog:
     @checks.has_permission_or_role("manage_guild","togglecommand")
     @commands.guild_only()
     async def disablecommand(self, ctx, *, commandname):
-        if ctx.channel_mentions:
+        if ctx.message.channel_mentions:
             enabledisable = "disable"
             channel = ctx.message.channel_mentions[0].id
             await self.toggleChannelFunction(ctx, enabledisable, channel)
