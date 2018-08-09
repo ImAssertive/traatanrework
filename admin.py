@@ -31,7 +31,7 @@ class adminCog:
             options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, prefix)"],["1","me","personal"]])
             footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + prefix + ")"
             descriptionText = "Options:\n"
-            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, prefix)
+            await useful.menuFunction(ctx, titleText, options, descriptionText, footerText, 60.0, prefix)
         else:
             await self.prefixPersonalMenu(ctx, prefix)
 
