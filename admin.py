@@ -195,8 +195,10 @@ class adminCog:
                     elif kickban == "ban":
                         await ctx.message.mentions[0].ban(reason="None given.")
             elif msg.content.lower() == "cancel":
-                await ctx.channel.send(":white_check_mark: | Canceled!")
+                canceledtext = await ctx.channel.send(":white_check_mark: | Canceled!")
                 await baninfo.delete()
+                await asyncio.sleep(2)
+                await canceledtext.delete()
 
     @commands.command(name="enablecommand", aliases=['enable'])
     @checks.is_not_banned()

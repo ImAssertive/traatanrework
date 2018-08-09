@@ -38,6 +38,14 @@ def command_is_enabled(command):
         return True
     return commands.check(predicate)
 
+def channel_is_enabled():
+    async def predicate(ctx):
+        query = "SELECT * FROM Channels WHERE channelid = $1 AND enabled = false"
+        result = await ctx.bot.db.fetchrow(query, ctx.channel.id)
+        if result:
+            return False
+        return True
+    return commands.check(predicate)
 
 def is_not_banned():
     async def predicate(ctx):
