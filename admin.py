@@ -270,12 +270,23 @@ class adminCog:
             else:
                 await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
 
-    @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
+    @commands.command(name="enablechannel", aliases =['unignorechannel', 'unignore'])
     @checks.is_not_banned()
     @commands.has_permissions(manage_guild=True)
     @commands.guild_only()
     async def enablechannel(self, ctx, channel=None):
         enabledisable = "enable"
+        if channel:
+            await self.toggleChannelFunction(ctx, enabledisable, channel)
+        else:
+            await self.toggleChannelFunction(ctx, enabledisable)
+
+    @commands.command(name="disablechannel", aliases =['ignorechannel','ignore'])
+    @checks.is_not_banned()
+    @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def disablechannel(self, ctx, channel=None):
+        enabledisable = "disable"
         if channel:
             await self.toggleChannelFunction(ctx, enabledisable, channel)
         else:
