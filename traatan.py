@@ -101,7 +101,7 @@ async def run():
             prefixes = "tt!"
         return prefixes
 
-    bot = Bot(description=description, db=db, command_prefix=get_pre)
+    bot = Bot(description=description, db=db)
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
@@ -121,6 +121,7 @@ class Bot(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(
             description=kwargs.pop("description"),
+            command_prefix=get_pre
         )
 
         #self.pubquizAnswers = []
