@@ -230,32 +230,6 @@ class adminCog:
                 break
         await ctx.channel.send(":no_entry: | Command not found.")
 
-    # async def nsfwMainMenu(self, ctx):
-    #     options = []
-    #     titleText = "NSFW Command Menu"
-    #     if ctx.channel.is_nsfw():
-    #         options.append([["Disable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","disable"]])
-    #     else:
-    #         options.append([["Enable NSFW Commands","ctx.bot.cogs['adminCog'].nsfwToggleMenu(ctx)"],["0","enable"]])
-    #     options.append([["List NSFW Channels", "ctx.bot.cogs['adminCog'].listNSFWChannels(ctx)"], ["1","list"]])
-    #     footerText = "Current Channel: " + ctx.channel.name + " (" + str(ctx.channel.id) + ")"
-    #     descriptionText = "Options:\n"
-    #     await useful.menuFunction(ctx, titleText, options, descriptionText, footerText)
-    #
-    # async def nsfwToggleMenu(self, ctx):
-    #     if ctx.channel.is_nsfw():
-    #         await ctx.channel.send(":white_check_mark: | This channel is no longer NSFW.")
-    #         await ctx.channel.edit(nsfw=False, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-    #     else:
-    #         await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
-    #         await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
-    # @commands.command()
-    # @checks.is_not_banned()
-    # @commands.has_permissions(manage_guild = True)
-    # @commands.guild_only()
-    # async def nsfw(self, ctx):
-    #     await self.nsfwMainMenu(ctx)
-
     @commands.command(name="listnsfw", aliases=['nsfwlist'])
     @checks.is_not_banned()
     @commands.guild_only()
@@ -295,6 +269,43 @@ class adminCog:
                     await ctx.channel.send(":white_check_mark: | **"+ctx.guild.get_channel(channelid).name+"** is now an NSFW channel.")
             else:
                 await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
+
+    @commands.command(name="nsfw", aliases=['togglensfw', 'setnsfw'])
+    @checks.is_not_banned()
+    @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def enablechannel(self, ctx, channel=None):
+        await self.toggleChannelFunction(ctx, enabledisable="enable", channel)
+
+    async def toggleChannelFunction(self, ctx, enabledisable, channel):
+        if channel == None:
+            channelid = ctx.channel.id
+        else:
+            try:
+                channelid = useful.getid(channel)
+            except:
+                await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
+                return
+        if ctx.guild.get_channel(channelid) != None:
+            if enabledisable == "enable":
+                enableddisabled = "enabled"
+                enabledisablebool = True
+            else:
+                enableddisabled = "disabled"
+                enabledisablebool = False
+            query = "SELECT * FROM Channels WHERE channelid = $1"
+            result = await ctx.bot.db.fetchrow(query, channelid)
+            connection = await self.bot.db.acquire()
+            async with connection.transaction():
+                if result is None:
+                    query = "INSERT INTO Channels (channelID) VALUES($1) ON CONFLICT DO NOTHING"
+                    await self.bot.db.execute(query, channelid)
+                query = "UPDATE Channels SET enabled = $1 WHERE channelid = $2"
+                await self.bot.db.execute(query, enabledisablebool, channelid)
+            await self.bot.db.release(connection)
+            await ctx.channel.send(":white_check_mark: | Commands "+enableddisabled+" in **" +ctx.guild.get_channel(channelid)+"**.")
+        else:
+            await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
 
 
 def setup(bot):

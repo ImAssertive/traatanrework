@@ -66,6 +66,9 @@ async def run():
     gifurl text,
     canbedisabled boolean);
     
+    CREATE TABLE IF NOT EXISTS Channels(channelid bigint PRIMARY KEY,
+    enabled boolean DEFAULT false);
+    
     CREATE TABLE IF NOT EXISTS Roles(roleID bigint PRIMARY KEY,
     guildID bigint references Guilds(guildID) ON DELETE CASCADE ON UPDATE CASCADE,
     quizmaster boolean DEFAULT false,
@@ -93,7 +96,7 @@ async def run():
     commandID bigint references Commands(commandID) ON DELETE CASCADE ON UPDATE CASCADE,
     enabled boolean,
     PRIMARY KEY(guildID, commandID));
-    
+        
     CREATE TABLE IF NOT EXISTS GuildUsers(userID bigint references Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
     guildID bigint references Guilds(guildID) ON DELETE CASCADE ON UPDATE CASCADE,
     localxp integer DEFAULT 0,
