@@ -216,6 +216,7 @@ class adminCog:
     async def commandToggleFunction(self, ctx, commandname, enableddisabled):
         query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
+        print(results)
         for result in results:
             print(result)
             print(result["aliases"].split(", "))
