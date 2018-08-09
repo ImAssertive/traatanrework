@@ -27,7 +27,7 @@ class adminCog:
         options = []
         if ctx.author.guild_permissions.manage_guild:
             titleText = "Prefix Command Menu"
-            options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, kwargsDict)"],["0","guild","server"]])
+            options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, kwargs)"],["0","guild","server"]])
             options.append([["Set prefix for just me","ctx.bot.cogs['adminCog'].prefixPersonalMenu(ctx, kwargs)"],["1","me","personal"]])
             footerText = "Current Guild: " + ctx.guild.name + " (" + str(ctx.guild.id) + ")   Selected Prefix: (" + enteredprefix + ")"
             descriptionText = "Options:\n"
@@ -38,13 +38,13 @@ class adminCog:
     async def prefixGuildMenu(self, ctx, kwargsDict):
         prefix = kwargsDict["enteredprefix"]
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
-        await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
+        await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
     async def prefixPersonalMenu(self, ctx, prefix):
         if isinstance(prefix, dict):
             prefix = prefix["prefix"]
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
-        await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
+        await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.author.name +"** to `"+ prefix +"`.")
 
 
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
