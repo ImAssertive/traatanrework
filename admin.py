@@ -217,6 +217,7 @@ class adminCog:
         query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
         for result in results:
+            print(result["aliases"])
             if commandname.lower() == result["name"] or commandname.lower() in result["aliases"].split(", "):
                 connection = await ctx.bot.db.acquire()
                 async with connection.transaction():
