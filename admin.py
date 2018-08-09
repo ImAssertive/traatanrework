@@ -218,6 +218,9 @@ class adminCog:
         results = await ctx.bot.db.fetch(query)
         for result in results:
             print(result)
+            print(result["aliases"].split(", "))
+            print(result["name"])
+            print(commandname.lower)
             if commandname.lower() == result["name"] or commandname.lower() in result["aliases"].split(", "):
                 connection = await ctx.bot.db.acquire()
                 async with connection.transaction():
@@ -228,7 +231,7 @@ class adminCog:
                     await ctx.bot.db.execute(query, result["commandID"], ctx.guild.id)
                 await ctx.bot.db.release(connection)
                 await ctx.channel.send(":white_check_mark: | **"+enableddisabled.title()+"** the **"+commandname+"** command.")
-                break
+                return
         await ctx.channel.send(":no_entry: | Command not found.")
 
     @commands.command(name="listnsfw", aliases=['nsfwlist'])
