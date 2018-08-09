@@ -275,10 +275,11 @@ class adminCog:
     @commands.has_permissions(manage_guild=True)
     @commands.guild_only()
     async def enablechannel(self, ctx, channel=None):
+        enabledisable = "enable"
         if channel:
-            await self.toggleChannelFunction(ctx, enabledisable="enable", channel)
+            await self.toggleChannelFunction(ctx, enabledisable, channel)
         else:
-            await self.toggleChannelFunction(ctx, enabledisable="enable")
+            await self.toggleChannelFunction(ctx, enabledisable)
 
 
     async def toggleChannelFunction(self, ctx, enabledisable, channel=None):
