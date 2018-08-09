@@ -51,7 +51,7 @@ class adminCog:
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
-    async def prefixPersonalMenu(ctx, ctx, prefix):
+    async def prefixPersonalMenu(self, ctx, prefix):
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for guild **"+ ctx.guild.name +"** to `"+ prefix +"`.")
 
