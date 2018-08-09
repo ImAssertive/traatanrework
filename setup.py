@@ -43,10 +43,10 @@ class setupCog:
     async def addcommands(self, ctx):
         connection = await self.bot.db.acquire()
         async with connection.transaction():
-            query = "INSERT INTO Commands (commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING"
-            await self.bot.db.execute(query, 1, "kick", "kick_members", "Kicks the mentioned user. Can attatch an optional reason for the kick after the user mention.", "`tt!kick <@USER>` or `tt!kick <@USER> <Reason>`", "tt!kick @MrSpam#0001 Spamming in general.")
-            query = "INSERT INTO Commands (commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING"
-            await self.bot.db.execute(query, 2, "ban", "ban_members", "Bans the mentioned user. Can attatch an optional reason for the ban after the user mention.", "`tt!ban <@USER>` or `tt!ban <@USER> <Reason>`", "tt!ban @MrSpam#0001 Spamming in general.")
+            query = "INSERT INTO Commands (aliases, commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, "No alises!", 1, "kick", "kick_members", "Kicks the mentioned user. Can attatch an optional reason for the kick after the user mention.", "`tt!kick <@USER>` or `tt!kick <@USER> <Reason>`", "tt!kick @MrSpam#0001 Spamming in general.")
+            query = "INSERT INTO Commands (aliases, commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, "No alises!", 2, "ban", "ban_members", "Bans the mentioned user. Can attatch an optional reason for the ban after the user mention.", "`tt!ban <@USER>` or `tt!ban <@USER> <Reason>`", "tt!ban @MrSpam#0001 Spamming in general.")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, 3, "enable", "manage_guild", "enablecommand", "Enables the specified command. Can be either channel or server wide. Excludes blacklisted channels.\nManagement commands can not be disabled", "`tt!enable CommandName`", "tt!enable Eightball")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
