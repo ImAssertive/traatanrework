@@ -273,7 +273,7 @@ class adminCog:
             await ctx.channel.send(":white_check_mark: | This channel is now an NSFW channel.")
             await ctx.channel.edit(nsfw=True, reason="Requested by: "+ctx.message.author.name + "#" + ctx.message.author.discriminator + " (" + str(ctx.message.author.id)+").")
         elif channel != None:
-            if ctx.message.channel_mentions == None:
+            if ctx.message.channel_mentions == []:
                 await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
                 return
             else:
