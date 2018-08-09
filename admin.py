@@ -220,8 +220,7 @@ class adminCog:
     async def disablecommand(self, ctx, *, commandname=None):
         if ctx.message.channel_mentions != []:
             enabledisable = "disable"
-            channel = ctx.message.channel_mentions[0].id
-            print(channel)
+            channel = str(ctx.message.channel_mentions[0].id)
             await self.toggleChannelFunction(ctx, enabledisable, channel)
         elif commandname == None:
             enabledisable = "disable"
