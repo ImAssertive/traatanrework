@@ -319,7 +319,7 @@ class adminCog:
                 query = "UPDATE Channels SET enabled = $1 WHERE channelid = $2"
                 await self.bot.db.execute(query, enabledisablebool, channelid)
             await self.bot.db.release(connection)
-            await ctx.channel.send(":white_check_mark: | Commands "+enableddisabled+" in **" +ctx.guild.get_channel(channelid)+"**.")
+            await ctx.channel.send(":white_check_mark: | Commands "+enableddisabled+" in **" +ctx.guild.get_channel(channelid).name+"**.")
         else:
             await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
 
