@@ -222,14 +222,14 @@ class adminCog:
             print(result["aliases"].split(", "))
             print(result["name"])
             print(commandname.lower)
-            if commandname.lower() == result["name"] or commandname.lower() in result["aliases"].split(", "):
+            if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No alises!"):
                 connection = await ctx.bot.db.acquire()
                 async with connection.transaction():
                     if enableddisabled == "enabled":
                         query = "UPDATE GuildCommands SET enabled = true WHERE commandid = $1 AND guildid = $2"
                     elif enableddisabled == "disabled":
                         query = "UPDATE GuildCommands SET enabled = false WHERE commandid = $1 AND guildid = $2"
-                    await ctx.bot.db.execute(query, result["commandID"], ctx.guild.id)
+                    await ctx.bot.db.execute(query, result["commandid"], ctx.guild.id)
                 await ctx.bot.db.release(connection)
                 await ctx.channel.send(":white_check_mark: | **"+enableddisabled.title()+"** the **"+commandname+"** command.")
                 return
