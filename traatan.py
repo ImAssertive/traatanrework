@@ -64,6 +64,7 @@ async def run():
     usagetext text,
     exampletext text,
     gifurl text,
+    category text,
     canbedisabled boolean);
     
     CREATE TABLE IF NOT EXISTS Channels(channelid bigint PRIMARY KEY,
