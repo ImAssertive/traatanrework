@@ -60,7 +60,7 @@ class adminCog:
             adminCommands = ', '.join(adminCommands)
             miscCommands = ', '.join(miscCommands)
             embed.add_field(name="Administration", value=adminCommands)
-            embed.add_field(name="Miscellaneous", value=miscCommands)
+            #embed.add_field(name="Miscellaneous", value=miscCommands)
         await ctx.channel.send(embed=embed)
 
 
