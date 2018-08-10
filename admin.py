@@ -5,11 +5,12 @@ class adminCog:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='setbantext')
+    @commands.command(name='setbantext', aliases='setban')
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setbantext")
-    @commands.guild_only()
-    async def setbantext(self, ctx, *, banText):
+    @checks.command_is_enabled(14)
+    @checks.channel_is_enabled()
+    async def setbantext(self, ctx, *, banText="None"):
         await csql.update(ctx, "Guilds", "bantext", banText, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Ban text set to: ```"+banText+"```")
 
@@ -17,7 +18,9 @@ class adminCog:
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setkicktext")
     @commands.guild_only()
-    async def setkicktext(self, ctx, *, kickText):
+    @checks.command_is_enabled(15)
+    @checks.channel_is_enabled()
+    async def setkicktext(self, ctx, *, kickText="None"):
         await csql.update(ctx, "Guilds", "kicktext", kickText, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Kick text set to: ```"+kickText+"```")
 
@@ -52,6 +55,8 @@ class adminCog:
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavechannel")
     @commands.guild_only()
+    @checks.command_is_enabled(11)
+    @checks.channel_is_enabled()
     async def setleave(self, ctx):
         await csql.update(ctx, "Guilds", "leavechannel", ctx.channel.id, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Done! Farewell channel set here.")
@@ -60,6 +65,8 @@ class adminCog:
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setwelcomechannel")
     @commands.guild_only()
+    @checks.command_is_enabled(10)
+    @checks.channel_is_enabled()
     async def setwelcome(self, ctx):
         await csql.update(ctx, "Guilds", "welcomechannel", ctx.channel.id, "guildid", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
@@ -68,6 +75,7 @@ class adminCog:
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setwelcometext")
     @commands.guild_only()
+    @checks.command_is_enabled(12)
     async def setwelcometext(self, ctx, *, welcometext):
         await csql.update(ctx, "Guilds", "welcometext", welcometext, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Done! Welcome text set to: ```" + welcometext + "```")
@@ -76,6 +84,8 @@ class adminCog:
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavetext")
     @commands.guild_only()
+    @checks.command_is_enabled(13)
+    @checks.channel_is_enabled()
     async def setleavetext(self, ctx, *, leavetext):
         await csql.update(ctx, "Guilds", "leavetext", leavetext, "guildID", ctx.guild.id)
         await ctx.channel.send("Done! Farewell text set to: ```" + leavetext + "```")
@@ -171,7 +181,7 @@ class adminCog:
         try:
             msg = await self.bot.wait_for('message', check=confirmationcheck, timeout=60.0)
         except asyncio.TimeoutError:
-            await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The reset command has closed due to inactivity.")
+            await ctx.channel.send(":no_entry: | **" + ctx.author.display_name + "** The menu has closed due to inactivity.")
         else:
             if msg.content == str(confirmationnumber):
                 embed = discord.Embed(title=":exclamation: | You have been "+ kickedbanned +" from " + ctx.guild.name,description="You have been "+ kickedbanned +" from " + ctx.guild.name + ". Details of this "+kickban+" are listed below.",colour=self.bot.getcolour())
@@ -239,7 +249,7 @@ class adminCog:
         query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
         for result in results:
-            if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No alises!"):
+            if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No aliases!"):
                 connection = await ctx.bot.db.acquire()
                 query = "SELECT * FROM GuildCommands WHERE commandid = $1 AND guildid = $2"
                 commandresult = await ctx.bot.db.fetchrow(query, result["commandid"], ctx.guild.id)

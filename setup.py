@@ -44,9 +44,9 @@ class setupCog:
         connection = await self.bot.db.acquire()
         async with connection.transaction():
             query = "INSERT INTO Commands (aliases, commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
-            await self.bot.db.execute(query, "No alises!", 1, "kick", "kick_members", "Kicks the mentioned user. Can attatch an optional reason for the kick after the user mention.", "`tt!kick <@USER>` or `tt!kick <@USER> <Reason>`", "tt!kick @MrSpam#0001 Spamming in general.")
+            await self.bot.db.execute(query, "No aliases!", 1, "kick", "kick_members", "Kicks the mentioned user. Can attatch an optional reason for the kick after the user mention.", "`tt!kick <@USER>` or `tt!kick <@USER> <Reason>`", "tt!kick @MrSpam#0001 Spamming in general.")
             query = "INSERT INTO Commands (aliases, commandid, name, perm, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
-            await self.bot.db.execute(query, "No alises!", 2, "ban", "ban_members", "Bans the mentioned user. Can attatch an optional reason for the ban after the user mention.", "`tt!ban <@USER>` or `tt!ban <@USER> <Reason>`", "tt!ban @MrSpam#0001 Spamming in general.")
+            await self.bot.db.execute(query, "No aliases!", 2, "ban", "ban_members", "Bans the mentioned user. Can attatch an optional reason for the ban after the user mention.", "`tt!ban <@USER>` or `tt!ban <@USER> <Reason>`", "tt!ban @MrSpam#0001 Spamming in general.")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, 3, "enable", "manage_guild", "enablecommand", "Enables the specified command. Can be either channel or server wide. Excludes blacklisted channels.\nManagement commands can not be disabled", "`tt!enable CommandName`", "tt!enable Eightball")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
@@ -62,7 +62,18 @@ class setupCog:
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, 9, "listnsfw", "manage_guild", "nsfwlist", "Lists NSFW channels in the guild.", "`tt!listnsfw`", "tt!listnsfw")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
-            await self.bot.db.execute(query, 9, "setwelcome", "manage_guild", "setwelcomechannel", "Sets the channel for a welcome message to be sent upon a new user joining the server.", "`tt!setwelcome` or `tt!setwelcome <#CHANNEL>`", "tt!setwelcome #General")
+            await self.bot.db.execute(query, 10, "setwelcome", "manage_guild", "setwelcomechannel", "Sets the channel for a welcome message to be sent upon a user joining the server.", "`tt!setwelcome` or `tt!setwelcome <#CHANNEL>`", "tt!setwelcome #General")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 11, "setleave", "manage_guild", "setleavechannel, setfarewellchannel, setfarewell", "Sets the channel for a farewell message to be sent upon a user leaving the server.", "`tt!setleave` or `tt!setleave <#CHANNEL>`", "tt!setleave #General")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 12, "setwelcometext", "manage_guild", "No aliases", "Sets the welcome message to be sent upon a user joining the server. \n%NAME% will be replaced with the users name.\n%MENTION% will mention the user.\n%GUILD% will be replaced with the guild name.", "`tt!setwelcome <MESSAGE>`", "tt!setwelcometext Welcome %MENTION% to %GUILD%!")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 13, "setleavetext", "manage_guild", "setfarewelltext", "Sets the farewell message to be sent upon a user leaving the server. \n%NAME% will be replaced with the users name.\n%MENTION% will mention the user.\n%GUILD% will be replaced with the guild name.", "`tt!setleave <MESSAGE>`", "tt!setleavetext %USER% has left %GUILD%! We hope to see you again soon.")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 14, "setbantext", "manage_guild", "setban", "Sets the message to be sent to a user upon being banned.", "`tt!setbantext <MESSAGE>`", "tt!setbantext This ban is permanent. To appeal this ban please contact Moderator#0000.")
+            query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext) VALUES($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, 15, "setkicktext", "manage_guild", "setkick", "Sets the message to be sent to a user upon being kicked.", "`tt!setkicktext <MESSAGE>`", "tt!setkicktext You have been kicked. Please contact Moderator#0000 to be allowed back into the guild."
+
 
         await self.bot.db.release(connection)
         await ctx.channel.send(":white_check_mark: | Done!")
@@ -153,8 +164,8 @@ class setupCog:
         query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false AND leave = true"
         result = await self.bot.db.fetchrow(query, ctx.guild.id)
         if result:
-            channelID = ("{}".format(result["leavechannel"]))
-            leavetext = useful.formatTextLeave(ctx, ("{}".format(result["leavetext"])))
+            channelID = (result["leavechannel"])
+            leavetext = useful.formatTextLeave(ctx, result["leavetext"])
             await ctx.guild.get_channel(int(channelID)).send(leavetext)
 
     async def on_member_join(self, ctx):
