@@ -94,6 +94,7 @@ class adminCog:
             prefix = prefix["prefix"]
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.author.name +"** to `"+ prefix +"`.")
+        found = False
         for each in ctx.bot.prefixes:
             if each[0] == ctx.author.id:
                 each[1] == prefix
