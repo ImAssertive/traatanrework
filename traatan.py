@@ -142,13 +142,11 @@ class Bot(commands.Bot):
         self.prefixes = []
         query = "SELECT * FROM Guilds WHERE prefix IS NOT NULL"
         results = await self.db.fetch(query)
-        print (results)
         if results:
             for result in results:
-                print(result)
                 self.prefixes.append([result["guildid"], result["prefix"]])
         query = "SELECT * FROM Users WHERE prefix IS NOT NULL"
-        results = await self.db.fetchrow(query)
+        results = await self.db.fetch(query)
         if results:
             for result in results:
                 self.prefixes.append([result["userid"], result["prefix"]])
