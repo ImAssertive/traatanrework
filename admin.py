@@ -5,7 +5,7 @@ class adminCog:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='setbantext', aliases='setban')
+    @commands.command(name='setbantext', aliases=['setban'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setbantext")
     @checks.command_is_enabled(14)
@@ -14,7 +14,7 @@ class adminCog:
         await csql.update(ctx, "Guilds", "bantext", banText, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Ban text set to: ```"+banText+"```")
 
-    @commands.command(name='setkicktext')
+    @commands.command(name='setkicktext', aliases=['setkick'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setkicktext")
     @commands.guild_only()
