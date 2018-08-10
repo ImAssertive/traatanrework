@@ -74,7 +74,7 @@ class adminCog:
     @checks.command_is_enabled(10)
     @checks.channel_is_enabled()
     async def setwelcome(self, ctx, channel=None):
-        if channel = None:
+        if channel == None:
             await csql.update(ctx, "Guilds", "welcomechannel", ctx.channel.id, "guildid", ctx.guild.id)
             await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
         elif ctx.message.channel_mentions==[]:
