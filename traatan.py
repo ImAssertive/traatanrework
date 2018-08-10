@@ -107,6 +107,7 @@ async def run():
 
 
     bot = Bot(description=description, db=db)
+    bot.remove_command("help")
     initial_extensions = ['admin', 'setup', 'misc', 'justme']
     if __name__ == '__main__':
         for extension in initial_extensions:
@@ -138,46 +139,6 @@ class Bot(commands.Bot):
                     "Reply hazy, try again", "Ask again later", "Better not tell you now",
                     "Cannot predict now", "Concentrate and ask again", "Don't count on it",
                     "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"]
-
-
-    @commands.command(name='help')
-    @checks.is_not_banned()
-    @checks.channel_is_enabled()
-    async def help(self, ctx, command=None):
-        embed = discord.Embed(title="UNNAMEDBOT Help Menu", colour=self.bot.getcolour())
-        query = "SELECT * FROM Commands"
-        results = await ctx.bot.db.fetch(query)
-        if command != None:
-            found = False
-            for result in results:
-                if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No aliases!"):
-                    found = True
-                    embed.add_field(name="Command Name", value=result["name"])
-                    embed.add_field(name="Command Aliases", value=result["aliases"])
-                    embed.add_field(name="Required Permission", value=result["perm"])
-                    if result["canbedisabled"]:
-                        embed.add_field(name="Command Disable", value="This command can be disabled.")
-                    else:
-                        embed.add_field(name="Command Disable", value="This command can not be disabled.")
-                    embed.add_field(name="Info", value=result["infotext"])
-                    embed.add_field(name="Usage", value=result["usagetext"])
-                    embed.add_field(name="Example", value=result["exampletext"])
-            if not found:
-                await ctx.channel.send(":no_entry: | Command not found! Use tt!help for a list of commands.")
-        else:
-            adminCommands = []
-            miscCommands = []
-            for result in results:
-                if result["category"] == "Administration":
-                    adminCommands.append(result["name"])
-                elif result["category"] == "Miscellaneous":
-                    miscCommands.append(result["name"])
-            adminCommands = ', '.join(adminCommands)
-            miscCommands = ', '.join(miscCommands)
-            embed.add_field(name="Administration", value=adminCommands)
-            embed.add_field(name="Miscellaneous", value=miscCommands)
-        await ctx.channel.send(embed=embed)
-
 
 
     async def on_ready(self):
