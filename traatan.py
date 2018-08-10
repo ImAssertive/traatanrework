@@ -2,21 +2,16 @@ import discord, asyncio, sys, traceback, checks, asyncpg, useful, credentialsFil
 from discord.ext import commands
 
 # def getPrefix(bot, message):
-#     prefixes = ["re!"]
-#     return commands.when_mentioned_or(*prefixes)(bot, message)
+#     self.prefixes = ["re!"]
+#     return commands.when_mentioned_or(*self.prefixes)(bot, message)
 async def get_pre(bot, ctx):
-    prefixes = []
-    query = "SELECT * FROM Guilds WHERE guildid = $1 AND prefix IS NOT NULL"
-    result = await bot.db.fetchrow(query, ctx.guild.id)
-    if result:
-        prefixes.append(result["prefix"])
-    query = "SELECT * FROM Users WHERE userid = $1 AND prefix IS NOT NULL"
-    result = await bot.db.fetchrow(query, ctx.author.id)
-    if result:
-        prefixes.append(result["prefix"])
-    if prefixes == []:
-        prefixes = "tt!"
-    return prefixes
+    pref = []
+    for each in self.prefixes:
+        if each[0] == ctx.guild.id or each[0] == ctx.author.id:
+            pref.append(each[1])
+    if pref == []:
+        pref = "tt!"
+    return pref
 
 
 async def run():
@@ -144,7 +139,15 @@ class Bot(commands.Bot):
         print("Username: {0}\nID: {0.id}".format(self.user))
         game = discord.Game("chess with Rainbow Restarter!")
         await self.change_presence(status=discord.Status.online, activity=game)
-        self.remove_command("help")
+        self.prefixes = []
+        query = "SELECT * FROM Guilds WHERE prefix IS NOT NULL"
+        results = await bot.db.fetch(query, ctx.guild.id)
+        for result in results:
+            self.prefixes.append([result["guildid"], result["prefix"]])
+        query = "SELECT * FROM Users WHERE prefix IS NOT NULL"
+        results = await bot.db.fetchrow(query, ctx.author.id)
+        for result in results:
+            self.prefixes.append([result["userid"], result["prefix"]])
 
     def getcolour(self):
         colours = ["5C6BC0", "AB47BC", "EF5350", "FFA726", "FFEE58", "66BB6A", "5BCEFA", "F5A9B8", "FFFFFF", "F5A9B8", "5BCEFA"]
