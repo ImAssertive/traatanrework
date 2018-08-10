@@ -141,11 +141,11 @@ class Bot(commands.Bot):
         await self.change_presence(status=discord.Status.online, activity=game)
         self.prefixes = []
         query = "SELECT * FROM Guilds WHERE prefix IS NOT NULL"
-        results = await bot.db.fetch(query, ctx.guild.id)
+        results = await self.db.fetch(query, ctx.guild.id)
         for result in results:
             self.prefixes.append([result["guildid"], result["prefix"]])
         query = "SELECT * FROM Users WHERE prefix IS NOT NULL"
-        results = await bot.db.fetchrow(query, ctx.author.id)
+        results = await self.db.fetchrow(query, ctx.author.id)
         for result in results:
             self.prefixes.append([result["userid"], result["prefix"]])
 
