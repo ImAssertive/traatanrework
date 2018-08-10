@@ -109,9 +109,10 @@ async def run():
     bot = Bot(description=description, db=db)
     bot.remove_command("help")
 
-    @bot.command()
+    @bot.command(name="help")
     async def help(self, ctx, command=None):
         embed = discord.Embed(title="UNNAMEDBOT Help Menu", colour=self.bot.getcolour())
+        query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
         if command != None:
             found = False
