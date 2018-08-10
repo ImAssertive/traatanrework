@@ -50,16 +50,22 @@ class adminCog:
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.author.name +"** to `"+ prefix +"`.")
 
-
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
     @checks.is_not_banned()
     @checks.has_permission_or_role("manage_guild", "setleavechannel")
     @commands.guild_only()
     @checks.command_is_enabled(11)
     @checks.channel_is_enabled()
-    async def setleave(self, ctx):
-        await csql.update(ctx, "Guilds", "leavechannel", ctx.channel.id, "guildID", ctx.guild.id)
-        await ctx.channel.send(":white_check_mark: | Done! Farewell channel set here.")
+    async def setleave(self, ctx, channel=None):
+        if channel == None:
+            await csql.update(ctx, "Guilds", "leavechannel", ctx.channel.id, "guildID", ctx.guild.id)
+            await ctx.channel.send(":white_check_mark: | Done! Farewell channel set here.")
+        elif ctx.message.channel_mentions==[]:
+            await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
+        else:
+            await csql.update(ctx, "Guilds", "leavechannel", ctx.message.channel_mentions[0].id, "guildID", ctx.guild.id)
+            await ctx.channel.send(":white_check_mark: | Done! Farewell channel set to **"+ctx.message.channel_mentions[0].name+"**.")
+
 
     @commands.command(name="setwelcome", aliases=['setwelcomechannel'])
     @checks.is_not_banned()
@@ -67,9 +73,15 @@ class adminCog:
     @commands.guild_only()
     @checks.command_is_enabled(10)
     @checks.channel_is_enabled()
-    async def setwelcome(self, ctx):
-        await csql.update(ctx, "Guilds", "welcomechannel", ctx.channel.id, "guildid", ctx.guild.id)
-        await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
+    async def setwelcome(self, ctx, channel=None):
+        if channel = None:
+            await csql.update(ctx, "Guilds", "welcomechannel", ctx.channel.id, "guildid", ctx.guild.id)
+            await ctx.channel.send(":white_check_mark: | Done! Welcome channel set here.")
+        elif ctx.message.channel_mentions==[]:
+            await ctx.channel.send(":no_entry: | Channel not found! Do I have the `Read Messages` permission in the mentioned channel?")
+        else:
+            await csql.update(ctx, "Guilds", "welcomechannel", ctx.message.channel_mentions[0].id, "guildID", ctx.guild.id)
+            await ctx.channel.send(":white_check_mark: | Done! welcomechannel channel set to **" + ctx.message.channel_mentions[0].name + "**.")
 
     @commands.command()
     @checks.is_not_banned()
