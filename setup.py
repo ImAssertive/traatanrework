@@ -159,7 +159,7 @@ class setupCog:
             await self.bot.db.execute(query, ctx.id, ctx.guild.id)
         await self.bot.db.release(connection)
 
-        query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false AND leave = true"
+        query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false AND leave = true AND leavetext IS NOT NULL AND leavechannel IS NOT NULL"
         result = await self.bot.db.fetchrow(query, ctx.guild.id)
         if result:
             channelID = (result["leavechannel"])
@@ -174,7 +174,7 @@ class setupCog:
             query = "INSERT INTO GuildUsers (guildID, userID) VALUES($1, $2) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, ctx.guild.id, ctx.id)
         await self.bot.db.release(connection)
-        query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false AND welcome = true"
+        query = "SELECT * FROM Guilds WHERE guildID = $1 AND banned = false AND welcome = true AND welcometext IS NOT NULL AND welcomechannel IS NOT NULL"
         result = await self.bot.db.fetchrow(query, ctx.guild.id)
         if result:
             channelID = ("{}".format(result["welcomechannel"]))

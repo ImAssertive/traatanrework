@@ -51,8 +51,10 @@ async def run():
     pubquizlastquestionsuper boolean DEFAULT false,
     welcomeChannel bigint,
     welcomeText text,
+    welcome boolean DEFAULT false,
     leaveChannel bigint,
     leaveText text,
+    leave boolean DEFAULT false,
     banned boolean DEFAULT false);
     
     CREATE TABLE IF NOT EXISTS Commands(commandID serial PRIMARY KEY,
