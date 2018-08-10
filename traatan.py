@@ -142,12 +142,14 @@ class Bot(commands.Bot):
         self.prefixes = []
         query = "SELECT * FROM Guilds WHERE prefix IS NOT NULL"
         results = await self.db.fetch(query)
-        for result in results:
-            self.prefixes.append([result["guildid"], result["prefix"]])
+        if results:
+            for result in results:
+                self.prefixes.append([result["guildid"], result["prefix"]])
         query = "SELECT * FROM Users WHERE prefix IS NOT NULL"
         results = await self.db.fetchrow(query)
-        for result in results:
-            self.prefixes.append([result["userid"], result["prefix"]])
+        if results:
+            for result in results:
+                self.prefixes.append([result["userid"], result["prefix"]])
 
     def getcolour(self):
         colours = ["5C6BC0", "AB47BC", "EF5350", "FFA726", "FFEE58", "66BB6A", "5BCEFA", "F5A9B8", "FFFFFF", "F5A9B8", "5BCEFA"]
