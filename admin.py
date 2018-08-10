@@ -70,6 +70,7 @@ class adminCog:
     @commands.guild_only()
     async def setprefix(self, ctx, *, enteredprefix):
         options = []
+        print(ctx.author.guild_permissions.manage_guild)
         if ctx.author.guild_permissions.manage_guild:
             titleText = "Prefix Command Menu"
             options.append([["Set prefix for guild","ctx.bot.cogs['adminCog'].prefixGuildMenu(ctx, kwargs)"],["0","guild","server"]])
