@@ -83,12 +83,25 @@ class adminCog:
         prefix = kwargsDict["prefix"]
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.guild.name +"** to `"+ prefix +"`.")
-
+        for each in ctx.bot.prefixes:
+            if each[0] == ctx.guild.id:
+                each[1] = prefix
+                found = True
+            if found == False:
+                ctx.bot.prefixes.append([ctx.guild.id, prefix])
     async def prefixPersonalMenu(self, ctx, prefix):
         if isinstance(prefix, dict):
             prefix = prefix["prefix"]
         await csql.update(ctx, "Users", "prefix", prefix, "userID", ctx.author.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.author.name +"** to `"+ prefix +"`.")
+        for each in ctx.bot.prefixes:
+            if each[0] == ctx.author.id:
+                each[1] == prefix
+                found = True
+            if found == False:
+                ctx.bot.prefixes.append([ctx.author.id, prefix])
+
+
 
     @commands.command(name="setleave", aliases=['setfarewell', 'setleavechannel', 'setfarewellchannel'])
     @checks.is_not_banned()

@@ -6,11 +6,15 @@ from discord.ext import commands
 #     return commands.when_mentioned_or(*self.prefixes)(bot, message)
 async def get_pre(bot, ctx):
     pref = []
+    guildDefault = True
     for each in bot.prefixes:
-        if each[0] == ctx.guild.id or each[0] == ctx.author.id:
+        if each[0] == ctx.guild.id:
             pref.append(each[1])
-    if pref == []:
-        pref = "tt!"
+            guildDefault = False
+        elif each[0] == ctx.author.id:
+            pref.append(each[1])
+    if guildDefault == True:
+        pref.append("tt!")
     return pref
 
 
