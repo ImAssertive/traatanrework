@@ -28,11 +28,11 @@ class adminCog:
     @commands.command(name='help')
     @checks.is_not_banned()
     @checks.channel_is_enabled()
-    async def help(self, ctx, command=None):
-        embed = discord.Embed(title="UNNAMEDBOT Help Menu", colour=self.bot.getcolour())
+    async def help(self, ctx, commandname=None):
+        embed = discord.Embed(title="UNNAMEDBOT Help Menu", description="Use tt!help <COMMAND> for more information on a command. E.G. `tt!help kick`", colour=self.bot.getcolour())
         query = "SELECT * FROM Commands"
         results = await ctx.bot.db.fetch(query)
-        if command != None:
+        if commandname != None:
             found = False
             for result in results:
                 if commandname.lower() == result["name"] or (commandname.lower() in result["aliases"].split(", ") and result["aliases"].split(", ") != "No aliases!"):
