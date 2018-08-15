@@ -10,7 +10,7 @@ class justmeCog:
     async def setgame(self, ctx, *, gameName):
         game = discord.Game(gameName)
         await self.bot.change_presence(status=discord.Status.online, activity=game)
-        await ctx.channel.send(":white_check_mark: | Online status set to: ** playing: "+ gameName+"**")
+        await ctx.channel.send(":white_check_mark: | Online status set to: ** playing "+ gameName+"**")
 
 
     @commands.command(name='botglobalban', aliases=['bgb', 'fuckoff'], hidden = True)
