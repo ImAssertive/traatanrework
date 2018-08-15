@@ -5,6 +5,12 @@ class justmeCog:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    @checks.justme()
+    async def setgame(self, ctx, *, gameName):
+        game = discord.Game(gameName)
+        await self.bot.change_presence(status=discord.Status.online, activity=game)
+
     @commands.command(name='botglobalban', aliases=['bgb', 'fuckoff'], hidden = True)
     @checks.justme()
     async def botglobalban(self, ctx, member):
