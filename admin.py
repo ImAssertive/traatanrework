@@ -215,6 +215,19 @@ class adminCog:
 
     @commands.command()
     @checks.is_not_banned()
+    @commands.has_permissions(ban_members=True)
+    @commands.guild_only()
+    @checks.command_is_enabled(16)
+    @checks.channel_is_enabled()
+    async def hackban(self, ctx, memberid):
+        try:
+            await guild.ban(discord.Object(id=memberid))
+            await ctx.channel.send(":white_check_mark: | Banned ID `"+str(memberid)+"`")
+        except:
+            await ctx.channel.send(":no_entry: | An error occurred. Was that a valid user ID?")
+
+    @commands.command()
+    @checks.is_not_banned()
     @commands.has_permissions(kick_members=True)
     @commands.guild_only()
     @checks.command_is_enabled(1)

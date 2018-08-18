@@ -73,6 +73,11 @@ class setupCog:
             await self.bot.db.execute(query, 14, "setbantext", "manage_guild", "setban", "Sets the message to be sent to a user upon being banned.", "`tt!setbantext <MESSAGE>`", "tt!setbantext This ban is permanent. To appeal this ban please contact Moderator#0000.", True, "Administration")
             query = "INSERT INTO Commands (commandid, name, perm, aliases, infotext, usagetext, exampletext, canbedisabled, category) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) ON CONFLICT DO NOTHING"
             await self.bot.db.execute(query, 15, "setkicktext", "manage_guild", "setkick", "Sets the message to be sent to a user upon being kicked.", "`tt!setkicktext <MESSAGE>`", "tt!setkicktext You have been kicked. Please contact Moderator#0000 to be allowed back into the guild.", True, "Administration")
+            query = "INSERT INTO Commands (aliases, commandid, name, perm, infotext, usagetext, exampletext, canbedisabled, category) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) ON CONFLICT DO NOTHING"
+            await self.bot.db.execute(query, "No aliases!", 16, "hackban", "ban_members", "Bans the mentioned user ID. Used against preventing spambots.", "`tt!hackban <ID>`", "tt!hackban 000000000000000000", True, "Administration")
+
+
+
         await self.bot.db.release(connection)
         await ctx.channel.send(":white_check_mark: | Done!")
 
