@@ -220,11 +220,11 @@ class adminCog:
     @checks.command_is_enabled(16)
     @checks.channel_is_enabled()
     async def hackban(self, ctx, memberid):
-        await guild.ban(discord.Object(id=int(memberid)))
+        await ctx.guild.ban(discord.Object(id=int(memberid)))
         await ctx.channel.send(":white_check_mark: | Banned ID `"+str(memberid)+"`")
     # async def hackban(self, ctx, memberid):
     #     try:
-    #         await guild.ban(discord.Object(id=int(memberid)))
+    #         await ctx.guild.ban(discord.Object(id=int(memberid)))
     #         await ctx.channel.send(":white_check_mark: | Banned ID `"+str(memberid)+"`")
     #     except:
     #         await ctx.channel.send(":no_entry: | An error occurred. Was that a valid user ID?")
