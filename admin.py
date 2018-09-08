@@ -81,8 +81,10 @@ class adminCog:
 
     async def prefixGuildMenu(self, ctx, kwargsDict):
         prefix = kwargsDict["prefix"]
+        found == False
         await csql.update(ctx, "Guilds", "prefix", prefix, "guildID", ctx.guild.id)
         await ctx.channel.send(":white_check_mark: | Set prefix for **"+ ctx.guild.name +"** to `"+ prefix +"`.")
+        print(ctx.bot.prefixes)
         for each in ctx.bot.prefixes:
             if each[0] == ctx.guild.id:
                 each[1] = prefix
