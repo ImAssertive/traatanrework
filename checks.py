@@ -9,15 +9,30 @@ def has_role(*arg):
         return False
     return commands.check(predicate)
 
+# def has_permission_or_role(permLevel, command):
+#     async def predicate(ctx):
+#         if eval("ctx.author.guild_permissions."+permLevel):
+#             return True
+#         else:
+#             rolesData = await getRolePerms(ctx)
+#             for role in rolesData:
+#                 if role[command] == True:
+#                     return True
+#             return False
+#     return commands.check(predicate)
+
 def has_permission_or_role(permLevel, command):
     async def predicate(ctx):
         if eval("ctx.author.guild_permissions."+permLevel):
             return True
         else:
-            rolesData = await getRolePerms(ctx)
-            for role in rolesData:
-                if role[command] == True:
-                    return True
+            query = "SELECT * FROM Roles WHERE roleID = ANY($1) AND "+command+ " = true"
+            userRoleIDs = []
+            for role ctx.author.roles:
+                userRoleIDs.append(role.id)
+            result = await ctx.bot.db.fetch(query, userRoleIDs)
+            if result:
+                return True
             return False
     return commands.check(predicate)
 

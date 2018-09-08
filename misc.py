@@ -118,7 +118,7 @@ class miscCog:
     async def choose(self, ctx, *, choices):
         choices = choices.split(" | ")
         if len(choices) < 2 or (len(choices)==2 and choices[0] == choices[1]):
-            await ctx.channel.send(":no_entry: | Please enter at least two choices!")
+            await ctx.channel.send(":no_entry: | Please enter at least two choices separated with ` | `!")
         else:
             choice = random.randint(0,len(choices)-1)
             await ctx.channel.send(":white_check_mark: | **"+ctx.author.display_name+"** I choose **"+choices[choice]+" **.")
