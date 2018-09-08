@@ -28,7 +28,7 @@ def has_permission_or_role(permLevel, command):
         else:
             query = "SELECT * FROM Roles WHERE roleID = ANY($1) AND "+command+ " = true"
             userRoleIDs = []
-            for role ctx.author.roles:
+            for role in ctx.author.roles:
                 userRoleIDs.append(role.id)
             result = await ctx.bot.db.fetch(query, userRoleIDs)
             if result:
